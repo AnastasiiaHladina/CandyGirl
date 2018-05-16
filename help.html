@@ -1,0 +1,252 @@
+<!doctype html>
+<html>
+<head>
+ 
+</head>
+  <script src="pixi/pixi.min.js"></script>
+  <style>
+/*
+          СКРЫТЬ СЛОЙ
+    app.stage.removeChild(girlWalk); скрывает спрайт со сцены
+
+
+          POSITION
+    устанавниваем положение х,у
+      girl.position.set(100, 100);
+
+
+          SIZE
+    ш: girl.width = 80;
+    в: girl.height = 120;
+    еще можно изменить Ш и В через .scale
+
+
+          SCALE (МАСШТАБ)
+      girl.scale.set(0.5, 0.5);
+
+
+          ANCHOR
+    Указываем опорную точку посередине спрайта, измеряется в %(0 - 1 === 0% - 100%)
+    Установив на 0.5 мы центрирует текстуру над точкой. Расположение самой точки и текстуры не изменится
+      girl.anchor.set(0.5, 0.5)
+
+
+          PIVOT
+    Аналогичен anchor, только 
+      anchor указывают от 0 до 1, а 
+      pivot указывают пикселями
+      girl.pivot.set(32, 32)
+
+
+          ROTATION (ПОВОРОТ)
+    Указывают в радианах
+      girl.rotation = 0.5;
+
+
+          ОБНАРУЖЕНИЕ СТОЛКНОВЕНИЯ
+    Вы можете использовать пользовательскую функцию hitTestRectangle,
+    которая проверяет, касаются ли какие-либо два прямоугольных спрайта Pixi.
+
+
+          ТЕКСТ
+    Используйте текстовый объект (PIXI.Text) для отображения текста на сцене
+    Это отобразит слова «Hello, Pixi» на холсте.
+    Текстовые объекты Pixi наследуются от класса Sprite,
+    поэтому они содержат все те же свойства, как x, y, width, height, alpha и rotation.
+    Поместите и измените размер текста на сцене так же, как и любой другой спрайт.
+    Это создает новый объект стиля, охватывающий весь стиль текста.
+      let style = new TextStyle({
+            fontFamily: "Arial",
+            fontSize: 36,
+            fill: "white",
+            stroke: '#ff3300',
+            strokeThickness: 4,
+            dropShadow: true,
+            dropShadowColor: "#000000",
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 6,
+      });
+      let message = new Text("Hello Pixi!", style);
+    Pixi создает текстовые объекты, используя API-интерфейс Canvas Drawing API
+    для визуализации текста в невидимый и временный элемент холста. Затем он превращает
+    холст в текстуру WebGL, чтобы его можно было сопоставить с спрайтом.
+    Вот почему цвет текста должен быть обернут в строку: это значение цвета API холста рисования.
+    Можно использовать значения rgba, hsla или hex. 
+    
+          ВЫРАВНИВАНИЕ ТЕКСТА
+    Pixi также может переносить длинные строки текста. 
+    Установите для свойства wordWrap style текста значение true,
+    а затем установите для параметра wordWrapWidth максимальную длину в пикселях,
+    чтобы строка текста была. Используйте свойство align для установки выравнивания для многострочного текста.
+-     message.style = {wordWrap: true, wordWrapWidth: 100, align: center};
+
+          СТИЛЬ ТЕКСТА
+    Если вы хотите использовать собственный файл шрифта, используйте правило
+    CSS @ font-face, чтобы связать файл шрифта со страницей HTML, на которой работает приложение Pixi.
+      @font-face {
+      font-family: "fontFamilyName";
+      src: url("fonts/fontFile.ttf");
+      }
+
+          ДЛЯ ТОГО, ЧТОБЫ ИЗМЕНИТЬ ТЕКСТ УЖЕ СУЩЕСТВУЮЩИЙ ПЕРЕМЕННОЙ
+      message.text = "Text changed!";
+          ПЕРЕОПРЕДЕЛИТЬ СВОЙСТВА СТИЛЯ
+      message.style = {fill: "black", font: "16px PetMe64"};  
+
+          РАССТРОВЫЕ ШРИФТЫ
+    Pixi также поддерживает растровые шрифты.
+    Вы можете использовать загрузчик Pixi для загрузки XML-файлов шрифтов Bitmap,
+    так же, как вы загружаете JSON или файлы изображений.
+
+
+          ПРЯМОУГОЛЬНИК
+    Все формы создаются путем создания нового экземпляра класса Graphics
+    Используйте startFill с шестнадцатеричным значением цветового кода, чтобы установить цвет заливки
+    Если вы хотите придать форме контур, используйте метод lineStyle.
+    Прямоугольник с красным контуром шириной 4 пикселя с альфа-значением 1.
+    Используйте метод drawRect для рисования прямоугольника. Его четыре аргумента: x, y, ширина и высота.
+    Используйте endFill, когда закончите.
+      let rectangle = new Graphics();
+      rectangle.lineStyle(4, 0xFF3300, 1);
+      rectangle.beginFill(0x66CCFF);
+      rectangle.drawRect(x, y, width, height);
+      rectangle.endFill();
+      rectangle.x = 170;
+      rectangle.y = 170;
+      app.stage.addChild(rectangle);
+
+
+          КРУГ
+    Создайте круг с помощью метода drawCircle. Его три аргумента: x, y и радиус
+    В отличие от прямоугольников и спрайтов, координаты x и y также являются его центральной точкой. 
+      let circle = new Graphics();
+      circle.beginFill(0x9966FF);
+      circle.drawCircle(0, 0, 32);
+      circle.endFill();
+      circle.x = 64;
+      circle.y = 130;
+      app.stage.addChild(circle);
+
+
+          ОВАЛ
+    Позиция x / y определяет верхний левый угол эллипса (предположим,
+    что эллипс окружен невидимым прямоугольным ограничивающим прямоугольником - верхний
+    левый угол этого окна будет представлять позицию привязки x / y эллипса)
+      let ellipse = new Graphics();
+      ellipse.beginFill(0xFFFF00);
+      ellipse.drawEllipse(0, 0, 50, 20);
+      ellipse.endFill();
+      ellipse.x = 180;
+      ellipse.y = 130;
+      app.stage.addChild(ellipse);
+
+
+          ЗАКРУГЛЁННЫЙ ПРЯМОУГОЛЬНИК
+    Последний аргумент cornerRadius - это число в пикселях, определяющее, насколько углы должны быть округлены
+      let roundBox = new Graphics();
+      roundBox.lineStyle(4, 0x99CCFF, 1);
+      roundBox.beginFill(0xFF9933);
+      roundBox.drawRoundedRect(0, 0, 84, 36, 10)
+      roundBox.endFill();
+      roundBox.x = 48;
+      roundBox.y = 190;
+      app.stage.addChild(roundBox);
+
+
+          ЛИНИИ
+    Вы можете использовать методы moveTo и lineTo для рисования начальной и конечной точек линии
+    Объекты PIXI.Graphics, такие как строки, имеют значения x и y,
+    как и спрайты, поэтому вы можете позиционировать их в любом месте сцены после того, как вы их нарисовали.
+      let line = new Graphics();
+      line.lineStyle(4, 0xFFFFFF, 1);
+      line.moveTo(0, 0);
+      line.lineTo(80, 50);
+      line.x = 32;
+      line.y = 32;
+      app.stage.addChild(line);
+
+
+          ПОЛИГОНЫ
+    Вы можете объединить линии и заполнить их цветами,
+    чтобы создавать сложные фигуры с использованием метода drawPolygon.
+    Аргумент drawPolygon - это массив путей из x / y точек, которые определяют положения каждой точки на фигуре.
+      let path = [
+            point1X, point1Y,
+            point2X, point2Y,
+            point3X, point3Y
+      ]; 
+      graphicsObject.drawPolygon(path);
+
+    drawPolygon объединит эти три точки вместе, чтобы сделать форму.
+    Вот как использовать drawPolygon для соединения трех линий вместе,
+    чтобы сделать красный треугольник с синей рамкой.
+    Треугольник рисуется в позиции 0,0, а затем перемещается в свое положение на сцене,
+    используя его свойства x и y.
+      let triangle = new Graphics();
+      triangle.beginFill(0x66FF33);
+      triangle.drawPolygon([
+            -32, 64,             //First point
+            32, 64,              //Second point
+            0, 0                 //Third point
+      ]);
+      triangle.endFill();
+      triangle.x = 180;
+      triangle.y = 22;
+      app.stage.addChild(triangle);
+
+
+          УЗНАТЬ ПОЛОЖЕНИЕ СПРАЙТА
+-    локально(внутри родителя)
+       console.log(childSprite.x);
+-    глобально(относительно верхнего левого угла сцены)
+       console.log(parentSprite.toGlobal(childSprite.position));
+-    альтернатива для получения глобальной позиции(когда мы не знаем родителя)
+       console.log(childSprite.parent.toGlobal(childSprite.position));
+-    НО, самый лучший способ это:
+       childSprite.getGlobalPosition().x
+       childSprite.getGlobalPosition().y
+
+
+          КОНВЕРТИРОВАТЬ ГЛОБАЛЬНУЮ ПОЗИЦИЮ В ЛОКАЛЬНУЮ
+      sprite.toLocal(sprite.position, anyOtherSprite)
+      
+
+          КАК УЗНАТЬ ЛОКАЛЬНОЕ РАССТОЯНИЕ МЕЖДУ СПРАЙТАМИ
+      sprite.toLocal(sprite.position, OtherSprite).x
+      sprite.toLocal(sprite.position, OtherSprite).y
+
+
+          ParticleContainer
+    Любые спрайты внутри ParticleContainer будут отображаться в 2-5 раз быстрее,
+    чем если бы они были в обычном контейнере.
+    Oсновные свойства для дочернего спрайта: x, y, width, height, scale, pivot, alpha, visible
+    Дочерние спрайты не могут иметь собственных вложенных детей.
+    ParticleContainer не может использовать визуальные эффекты Pixi, такие как фильтры и режимы смешивания.
+    Почему спрайты в ParticleContainer такие быстрые? 
+    Поскольку позиции спрайтов вычисляются непосредственно на графическом процессоре.
+      let superFastSprites = new ParticleContainer(maxSize, properties, batchSize, autoResize);
+      maxSize - если вам нужно содержать больше спрайтов, установите его на большее число
+      properties - объект с 5 булевыми значениями, можете установить: масштаб, положение, вращение, uvs и alphaAndTint
+      batchSize - размер партии ??(необяз.)
+      autoResize - авторесайз ??(необяз.)
+            uvs - если у вас есть частицы, которые меняют свои текстуры во время анимации.
+            UV-отображение представляет собой трехмерный графический дисплей,
+            который ссылается на координаты x и y текстуры, которые отображаются на трехмерную поверхность.
+            U - это ось x,
+            V - ось y. 
+            WebGL уже использует x, y и z для трехмерного пространственного позиционирования,
+            поэтому U и V были выбраны для представления x и y для текстур 2D-изображения.
+      let superFastSprites = new PIXI.particles.ParticleContainer(size, 
+         {
+            rotation: true,
+            alphaAndtint: true,
+            scale: true,
+            uvs: true 
+         }
+      );
+*/
+</style>
+</script>
+</body>
+</html>
