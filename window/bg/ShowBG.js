@@ -1,11 +1,13 @@
-import * as PIXI from 'pixi.js'; 
-import { SSL_OP_CRYPTOPRO_TLSEXT_BUG } from 'constants';
- 
+import * as PIXI from 'pixi.js';  
+import {randomInteger} from '../util/Random';   
+
 let Sprite = PIXI.Sprite; 
 let Loader = PIXI.loader;
 let TilingSprite = PIXI.extras.TilingSprite;
 let BGTextureAtlas, Bg, Floor, Bush1, Bush2; 
-let elements = []; 
+let elements = [],
+    Bush = [],
+    Tree = [];
 
 const gameLoop = (delta)=>{
     elements.forEach((el)=>{
@@ -18,7 +20,7 @@ const BG = (app, scene) => {
             Loader.resources["images/material/GUI/main/all/BG.png"].texture
         ); 
         for(let x = 0; x < 6; x++){
-            console.log("images/material/GUI/main/all/"+ (x + 12) +".png");
+            //console.log("images/material/GUI/main/all/"+ (x + 12) +".png");
             elements[x] = new Sprite(
                 Loader.resources["images/material/GUI/main/all/"+ (x + 12) +".png"].texture
             );
@@ -50,36 +52,47 @@ const BG = (app, scene) => {
 
         Bg = new TilingSprite(BGTextureAtlas["BG.png"]);
         Bg.width = window.innerWidth;
-        Bg.height = window.innerHeight - Floor.height;
-        
+        Bg.height = window.innerHeight;
+        /*
+        for(let i = 0; i < 5; i++){
+            Tree[i] = new Sprite(BGTextureAtlas["Tree_3.png"]);
+            Tree[i].y = window.innerHeight - Floor.height - (Tree[i].height/2);
+            Tree[i].x = 400;  
+            app.stage.addChild(Tree[i]);
+        }
+
+        for(let i = 0; i < 8; i++){
+            Bush[i] = new Sprite(BGTextureAtlas["Bush (3).png"]);
+            Bush[i].y = window.innerHeight - Floor.height - (Bush[i].height/2); 
+            Bush[i].x = randomInteger(0, window.innerWidth);
+            Bush[i].anchor.set(0.5, 0.5); 
+            app.stage.addChild(Bush[i]);
+        }
+    */
+
         Bush1 = new Sprite(BGTextureAtlas["Bush (3).png"]);
         Bush1.y = window.innerHeight - Floor.height - (Bush1.height/2); 
         Bush1.x = randomInteger(0, window.innerWidth);
         Bush1.anchor.set(0.5, 0.5);
 
-        Bush2 = new Sprite(BGTextureAtlas["Bush (1).png"]);
+        Bush2 = new Sprite(BGTextureAtlas["Tree_3.png"]);
         Bush2.y = window.innerHeight - Floor.height - (Bush2.height/2); 
         Bush2.x = randomInteger(0, window.innerWidth);
         Bush2.anchor.set(0.5, 0.5);
-        //Bg.scale.set(1.4, 1);
-
-        console.log(Bush1.x, Bush2.x);
+/**/
         app.stage.addChild(Bg, Floor, Bush1, Bush2);
     }
 } 
 
-function MoveFloor(x){
-    Floor.tilePosition.x -=x;
-    Bg.tilePosition.x -=2;
-    Bush1.x -=x;
-    Bush2.x -=x;
-}
+function MoveAll(x){ 
+    if((Floor.tilePosition.x - x) < 0){
+        Floor.tilePosition.x -=x;
+        Bg.tilePosition.x -=2;
+        Bush1.x -=x;
+        Bush2.x -=x;
+    }
 
-function randomInteger(min, max) {
-    let rand = min + Math.random() * (max + 1 - min);
-    rand = Math.floor(rand);
-    return rand;
-}
+} 
 
 const getX = () => {
     return Floor.x;
@@ -95,5 +108,5 @@ const getHeight = () => {
 }
 
 module.exports = {
-    BG, gameLoop, getX, getY, getWidth, getHeight, MoveFloor
+    BG, gameLoop, getX, getY, getWidth, getHeight, MoveAll
 }

@@ -1,10 +1,10 @@
 
 import * as PIXI from 'pixi.js';
 import * as Screens from './window';  
-import {BG, GetFloorParam, MoveFloor}  from './window/bg/ShowBG';  
+import {BG, GetFloorParam, MoveAll}  from './window/bg/ShowBG';  
 import removeAll from './window/util/removeAll';  
 import Girl from './window/entity/girl/Girl';  
-
+import {GUI} from './window/GUI/ShowGUI';
 
  //Создание псевдонимов
  let type = "WebGL";
@@ -18,7 +18,7 @@ import Girl from './window/entity/girl/Girl';
  let Container = PIXI.Container;
  let Graphics = PIXI.Graphics;
  //let outlineFilterRed = new PIXI.filters.GlowFilter(15, 2, 1, 0xff9999, 0.5);
- let MainBG, GUI, GirlTextureAtlas, BGTextureAtlas, GUITextureAtlas, state; 
+ let MainBG, GirlTextureAtlas, BGTextureAtlas, GUITextureAtlas, state; 
  let app;
 
  if(!Utils.isWebGLSupported()){
@@ -37,6 +37,12 @@ import Girl from './window/entity/girl/Girl';
        "images/material/GUI/main/all/15.png",
        "images/material/GUI/main/all/16.png",
        "images/material/GUI/main/all/17.png", 
+       "images/material/attack/allCandy/1.png",
+       "images/material/attack/allCandy/2.png",
+       "images/material/attack/allCandy/3.png",
+       "images/material/attack/allCandy/4.png",
+       "images/material/attack/allCandy/5.png",
+       "images/material/attack/allCandy/6.png",
        "images/material/GUI/main/GUI.json",       
        "images/material/girl/spriteGirl.json", 
        "images/material/forest/spriteForest.json", 
@@ -120,6 +126,7 @@ import Girl from './window/entity/girl/Girl';
     if(whichGUI === 4){
         showBackground(2);//First Level
         Girl.InitGirl(app, GirlTextureAtlas);
+        GUI(app, GUITextureAtlas);
         window.addEventListener('keydown', function(e){
             //37  left
             //38  up
@@ -135,22 +142,22 @@ import Girl from './window/entity/girl/Girl';
             setKey(e.keyCode);
             if(isKeyDown('up') && isKeyDown('left')){
                 Girl.AnimateGirl(app, -5, -5); 
-                MoveFloor(-5);
+                MoveAll(-5);
             } 
             if(isKeyDown('up') && isKeyDown('right')){
                 Girl.AnimateGirl(app, 5, -5); 
-                MoveFloor(5);
+                MoveAll(5);
             } 
             if(isKeyDown('up')){
                Girl.AnimateGirl(app, 0, -20);  
             } 
             if(isKeyDown('left')){
                 Girl.AnimateGirl(app, -20, 0); 
-                MoveFloor(-5);
+                MoveAll(-5);
             } 
             if(isKeyDown('right')){
                 Girl.AnimateGirl(app, 20, 0); 
-                MoveFloor(5);
+                MoveAll(5);
             } 
         });
         window.addEventListener('keyup', function(e){

@@ -70,7 +70,7 @@ const InitGirl = (app, GirlTextureAtlas) => {
     girl.x = 0;
     girl.y = vy;
     girl.scale.set(0.5, 0.5);
-    
+    //console.log(girl.x,girl.y);
     girl2 = new Sprite(GirlTextureAtlas["girlWalk (1).png"]);
     girl2.x = 200;
     girl2.y = vy;
