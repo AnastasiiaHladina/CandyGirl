@@ -11,14 +11,31 @@ let vy = window.innerHeight - (window.innerHeight/2);
 let check = true;
 
 const AnimateGirl = (app, x, y) => { 
-    console.log(vy + "   " +  (window.innerHeight/5));//317   127
-    girl.x += x;
+    //console.log(x,y);//317   127
+    if(x!== undefined && y!== undefined){
+        console.log(girl.x,girl.y); 
+
+        
+        if((girl.x + x) > 0 && (girl.x + x) < (window.innerWidth-girl.width*2)){
+            girl.x += x;
+        } 
+        /**/
+        girl.y += y;   
+        /*
+        if(girl.y > (window.innerHeight/5) && girl.y <= vy){
+            app.ticker.addOnce(delta => girlJump(delta, 5, app));
+        }
+        */
+    }
+
+    /*
+    
     if(y){
         y = !y;
         if(girl.y > (window.innerHeight/5)) 
         app.ticker.addOnce(delta => girlJump(delta, -5));
     } 
-
+*/
 
 
     /*
@@ -36,8 +53,13 @@ const AnimateGirl = (app, x, y) => {
 
 }
 
-function girlJump(delta, y){  
+function girlJump(delta, y, app){  
     console.log(girl.y);
+    if(girl.y >= vy) {
+        console.log(1);
+        app.ticker.stop();
+
+    }
     girl.y += y;
 }
 

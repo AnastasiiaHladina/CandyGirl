@@ -1,7 +1,7 @@
 
 import * as PIXI from 'pixi.js';
 import * as Screens from './window';  
-import {BG, GetFloorParam}  from './window/bg/ShowBG';  
+import {BG, GetFloorParam, MoveFloor}  from './window/bg/ShowBG';  
 import removeAll from './window/util/removeAll';  
 import Girl from './window/entity/girl/Girl';  
 
@@ -125,19 +125,36 @@ import Girl from './window/entity/girl/Girl';
             //38  up
             //39  right
             //console.log(e);
-          /*if(e.keyCode === 37 && e.keyCode === 38) Girl.AnimateGirl(app, -5, true); 
+          /*
+          if(e.keyCode === 37 && e.keyCode === 38) Girl.AnimateGirl(app, -5, true); 
           else if(e.keyCode === 39 && e.keyCode === 38) Girl.AnimateGirl(app, 5, true);             
           else if(e.keyCode === 37) Girl.AnimateGirl(app, -5, 0); 
           else if(e.keyCode === 38) Girl.AnimateGirl(app, 0, true); 
           else if(e.keyCode === 39) Girl.AnimateGirl(app, 5, 0); 
 */
             setKey(e.keyCode);
-            if(isKeyDown('up'))console.log(1);
+            if(isKeyDown('up') && isKeyDown('left')){
+                Girl.AnimateGirl(app, -5, -5); 
+                MoveFloor(-5);
+            } 
+            if(isKeyDown('up') && isKeyDown('right')){
+                Girl.AnimateGirl(app, 5, -5); 
+                MoveFloor(5);
+            } 
+            if(isKeyDown('up')){
+               Girl.AnimateGirl(app, 0, -20);  
+            } 
+            if(isKeyDown('left')){
+                Girl.AnimateGirl(app, -20, 0); 
+                MoveFloor(-5);
+            } 
+            if(isKeyDown('right')){
+                Girl.AnimateGirl(app, 20, 0); 
+                MoveFloor(5);
+            } 
         });
         window.addEventListener('keyup', function(e){
-
             clearKey(e.keyCode);
-
         });
     }
  }
@@ -151,21 +168,17 @@ import Girl from './window/entity/girl/Girl';
 }; 
 let keyDown = {};
 
-function setKey(keyCode){//38,96
-    //38:TRUE   
-    console.log(keyCode + ' 1')
+function setKey(keyCode){
     keyDown[keyCode] = true;
-    //console.log(keyDown)
 }
 
 function isKeyDown(keyName){
-    console.log(keyName+ " " + keys[keyName] + "  " + keyDown[keys[keyName]]) 
+    //console.log(keyName+ " " + keys[keyName] + "  " + keyDown[keys[keyName]]) 
 
     return keyDown[keys[keyName]] == true;
 }
 
 function clearKey(keyCode){
-    console.log(keyCode + ' 2')
     keyDown[keyCode] = false;
 }
 
