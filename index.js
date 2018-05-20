@@ -1,10 +1,7 @@
-
 import * as PIXI from 'pixi.js';
 import * as Screens from './window';  
-import {BG, GetFloorParam, MoveAll}  from './window/bg/ShowBG';  
-import removeAll from './window/util/removeAll';  
-import Girl from './window/entity/girl/Girl';  
-import {GUI} from './window/GUI/ShowGUI';
+import {BG}  from './window/bg/ShowBG';  
+import removeAll from './window/util/removeAll'; 
 
  //Создание псевдонимов
  let type = "WebGL";
@@ -19,7 +16,7 @@ import {GUI} from './window/GUI/ShowGUI';
  let Graphics = PIXI.Graphics;
  //let outlineFilterRed = new PIXI.filters.GlowFilter(15, 2, 1, 0xff9999, 0.5);
  let MainBG, GirlTextureAtlas, BGTextureAtlas, GUITextureAtlas, state; 
- let app;
+ let app; 
 
  if(!Utils.isWebGLSupported()){
    type = "canvas"
@@ -44,8 +41,8 @@ import {GUI} from './window/GUI/ShowGUI';
        "images/material/attack/allCandy/5.png",
        "images/material/attack/allCandy/6.png",
        "images/material/GUI/main/GUI.json",       
-       "images/material/girl/spriteGirl.json", 
-       "images/material/forest/spriteForest.json", 
+       "images/material/girl/spriteGirl.json",
+       "images/material/forest/spriteForest.json",
 
    ])
    .on("progress", loadProgressHandler)
@@ -56,8 +53,7 @@ import {GUI} from './window/GUI/ShowGUI';
    console.log("loading: " + resource.url);//Вывод названия ресурса
    console.log("progress: " + loader.progress + "%");//Вывод прогресса загрузки
  
-    if(loader.progress === 100){
-        
+    if(loader.progress === 100){ 
         //параметры приложения
         app = new Application({
             width: 256, 
@@ -70,10 +66,19 @@ import {GUI} from './window/GUI/ShowGUI';
         app.renderer.view.style.display = "block";
         app.renderer.autoResize = true;
         app.renderer.resize(window.innerWidth, window.innerHeight);
+        app.EndLevel = 10000;
         //добавляем канвас(PIXI автоматически создал его)
         document.body.appendChild(app.view); 
     } 
  }
+ /*
+       "images/material/cat/spriteCat.json", 
+       "images/material/dog/spriteDog.json",        
+       "images/material/forest/spriteForest.json", 
+       "images/material/wilderness/spriteWilderness.json", 
+       "images/material/mountains/spriteMountains.json", 
+       "images/material/jelly/allJellyMonster.json"
+ */
  
  //выполнится после загрузки картинки
  function setup(){
@@ -87,8 +92,10 @@ import {GUI} from './window/GUI/ShowGUI';
      suvs: true
    });
    GirlTextureAtlas = Loader.resources["images/material/girl/spriteGirl.json"].textures;  
-   //app.ticker.add(delta => GirlAnimate(delta));
+
  }
+
+
 
  function play(delta) {
      
@@ -122,23 +129,12 @@ import {GUI} from './window/GUI/ShowGUI';
         showBackground(1);//Main
         Screens.SetLevel(app, GUITextureAtlas, showGUI);
     }
-    //let left = keyboard(37), up = keyboard(38), right = keyboard(39), down = keyboard(40);
     if(whichGUI === 4){
-        showBackground(2);//First Level
-        Girl.InitGirl(app, GirlTextureAtlas);
-        GUI(app, GUITextureAtlas);
-        window.addEventListener('keydown', function(e){
-            //37  left
-            //38  up
-            //39  right
-            //console.log(e);
-          /*
-          if(e.keyCode === 37 && e.keyCode === 38) Girl.AnimateGirl(app, -5, true); 
-          else if(e.keyCode === 39 && e.keyCode === 38) Girl.AnimateGirl(app, 5, true);             
-          else if(e.keyCode === 37) Girl.AnimateGirl(app, -5, 0); 
-          else if(e.keyCode === 38) Girl.AnimateGirl(app, 0, true); 
-          else if(e.keyCode === 39) Girl.AnimateGirl(app, 5, 0); 
-*/
+        Screens.Game(app, GirlTextureAtlas, GUITextureAtlas, window);
+        //showBackground(2);//First Level
+        //Girl.InitGirl(app, GirlTextureAtlas);
+        //GUI(app, GUITextureAtlas);
+        /*window.addEventListener('keydown', function(e){
             setKey(e.keyCode);
             if(isKeyDown('up') && isKeyDown('left')){
                 Girl.AnimateGirl(app, -5, -5); 
@@ -149,7 +145,8 @@ import {GUI} from './window/GUI/ShowGUI';
                 MoveAll(5);
             } 
             if(isKeyDown('up')){
-               Girl.AnimateGirl(app, 0, -20);  
+               // Girl.AnimateGirl(app, 0, -20);  
+               Girl.setJump(true);
             } 
             if(isKeyDown('left')){
                 Girl.AnimateGirl(app, -20, 0); 
@@ -158,35 +155,20 @@ import {GUI} from './window/GUI/ShowGUI';
             if(isKeyDown('right')){
                 Girl.AnimateGirl(app, 20, 0); 
                 MoveAll(5);
-            } 
+            }
+            if(isKeyDown('0')){
+                Girl.AnimateGirl(app, 20, 0); 
+                MoveAll(5);
+            }
         });
+        */  /*
         window.addEventListener('keyup', function(e){
             clearKey(e.keyCode);
         });
+        */
     }
  }
 
- let keys = {
-    'left' : 37,    
-    'up'   : 38,
-    'right': 39,
-    'down' : 40,
-    '0'    : 96
-}; 
-let keyDown = {};
 
-function setKey(keyCode){
-    keyDown[keyCode] = true;
-}
-
-function isKeyDown(keyName){
-    //console.log(keyName+ " " + keys[keyName] + "  " + keyDown[keys[keyName]]) 
-
-    return keyDown[keys[keyName]] == true;
-}
-
-function clearKey(keyCode){
-    keyDown[keyCode] = false;
-}
 
 

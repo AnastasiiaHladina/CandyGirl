@@ -173,7 +173,7 @@
 },
 "Bush (1).png":
 {
-	"frame": {"x":576,"y":0,"w":133,"h":65},
+	"frame": {"x":576,"y":0,"w":132,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":133,"h":65},
@@ -182,7 +182,7 @@
 },
 "Bush (2).png":
 {
-	"frame": {"x":709,"y":0,"w":133,"h":65},
+	"frame": {"x":709,"y":0,"w":132,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":133,"h":65},
@@ -254,7 +254,7 @@
 },
 "Stone.png":
 {
-	"frame": {"x":361,"y":0,"w":90,"h":54},
+	"frame": {"x":361,"y":0,"w":89,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":54},
@@ -263,7 +263,7 @@
 },
 "Tree_1.png":
 {
-	"frame": {"x":99,"y":0,"w":116,"h":44},
+	"frame": {"x":100,"y":0,"w":116,"h":44},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":116,"h":44},
@@ -272,7 +272,7 @@
 },
 "Tree_2.png":
 {
-	"frame": {"x":539,"y":333,"w":282,"h":301},
+	"frame": {"x":540,"y":334,"w":282,"h":300},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":301},
@@ -281,7 +281,7 @@
 },
 "Tree_3.png":
 {
-	"frame": {"x":257,"y":333,"w":282,"h":275},
+	"frame": {"x":259,"y":334,"w":282,"h":274},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":275},

@@ -7,7 +7,7 @@ let Container = PIXI.Container;
 let Text = PIXI.Text;
 let TextStyle = PIXI.TextStyle;
 let TilingSprite = PIXI.extras.TilingSprite;
-let guiCandy, guiHealth, rectHealth, GirlHealth, Plus, Candy; 
+let guiCandy, guiHealth, rectHealth, GirlHealth, Plus, Candy;
 let GUIContainer, HealthContainer, CandyContainer;
 let style = new TextStyle({
     fontFamily: "Buxton Sketch",
@@ -24,7 +24,8 @@ const gameLoop = (delta)=>{
         el.rotation += 0.01;
     })
 }
-const GUI = (app, GUITextureAtlas) => { 
+const GUI = (app, GUITextureAtlas) => {
+
     guiCandy = new Sprite(GUITextureAtlas['2.png']);
     guiCandy.x = window.innerWidth/10;
     guiCandy.y = 0;
@@ -38,7 +39,7 @@ const GUI = (app, GUITextureAtlas) => {
     GirlHealth = guiHealth.width/1.2 - 13;
 
     rectHealth = new Graphics();  
-    rectHealth.beginFill(0x76ffa3);
+    rectHealth.beginFill(0x1df26b);
     rectHealth.drawRoundedRect((guiHealth.x + guiHealth.width/6), (guiHealth.y + guiHealth.height/6), GirlHealth, guiHealth.height/2, 5);
     rectHealth.endFill(); 
 
@@ -54,7 +55,7 @@ const GUI = (app, GUITextureAtlas) => {
     Candy.y = 7;
     Candy.scale.set(0.2, 0.2);
 
-    let countCandy = new Text("10", style);
+    let countCandy = new Text("0", style);
     countCandy.x = guiCandy.x + guiCandy.width/2;
     countCandy.y = 5;
 
@@ -66,10 +67,6 @@ const GUI = (app, GUITextureAtlas) => {
     CandyContainer.addChild(guiCandy, Candy, countCandy);
     GUIContainer.addChild(HealthContainer, CandyContainer);
 
-    
-
-
-
     app.stage.addChild(GUIContainer);
 }
  
@@ -77,6 +74,10 @@ const GetGirlHealth = () => {
     return GirlHealth;
 }
 
+const SetGirlHealth = (newGirlHealth) => {
+    GirlHealth = newGirlHealth;
+}
+
 module.exports = {
-    GUI, gameLoop, GetGirlHealth
+    GUI, gameLoop, GetGirlHealth, SetGirlHealth
 }
