@@ -16,7 +16,8 @@ import removeAll from './window/util/removeAll';
  let Graphics = PIXI.Graphics;
  //let outlineFilterRed = new PIXI.filters.GlowFilter(15, 2, 1, 0xff9999, 0.5);
  let MainBG, GirlTextureAtlas, BGTextureAtlas, FiguresTextureAtlas, CandyTextureAtlas,
-  GUITextureAtlas, ForestTextureAtlas, DesertTextureAtlas, MountainTextureAtlas; 
+  GUITextureAtlas, ForestTextureAtlas, DesertTextureAtlas, MountainTextureAtlas,
+  JellyTextureAtlas; 
  let app; 
 
  if(!Utils.isWebGLSupported()){
@@ -28,19 +29,7 @@ import removeAll from './window/util/removeAll';
  //загрузка картинок
  Loader
    .add([ 
-       "images/material/GUI/main/all/BG.png", 
-       "images/material/GUI/main/all/12.png",
-       "images/material/GUI/main/all/13.png",
-       "images/material/GUI/main/all/14.png",
-       "images/material/GUI/main/all/15.png",
-       "images/material/GUI/main/all/16.png",
-       "images/material/GUI/main/all/17.png", 
-       "images/material/attack/allCandy/1.png",
-       "images/material/attack/allCandy/2.png",
-       "images/material/attack/allCandy/3.png",
-       "images/material/attack/allCandy/4.png",
-       "images/material/attack/allCandy/5.png",
-       "images/material/attack/allCandy/6.png",]);
+       "images/material/GUI/main/all/BG.png",]);
  Loader
    .add([
        "images/material/GUI/main/GUI.json",       
@@ -90,6 +79,7 @@ import removeAll from './window/util/removeAll';
     app.ForestTextureAtlas = ForestTextureAtlas;
     app.DesertTextureAtlas = DesertTextureAtlas;
     app.MountainTextureAtlas = MountainTextureAtlas;
+    app.JellyTextureAtlas = JellyTextureAtlas;
     showGUI(1);
  }
 
@@ -149,6 +139,12 @@ import removeAll from './window/util/removeAll';
         scale: false,
         suvs: false
     });
+    JellyTextureAtlas = new ParticleSprites(1500, {
+        rotation: false,
+        alphaAndtint: false,
+        scale: false,
+        suvs: false
+    });
     GirlTextureAtlas = Loader.resources["images/material/girl/spriteGirl.json"].textures;  
     FiguresTextureAtlas = Loader.resources["images/material/GUI/main/Figures.json"].textures;
     CandyTextureAtlas = Loader.resources["images/material/attack/spriteCandy.json"].textures;
@@ -156,6 +152,7 @@ import removeAll from './window/util/removeAll';
     ForestTextureAtlas = Loader.resources["images/material/forest/spriteForest.json"].textures;
     DesertTextureAtlas = Loader.resources["images/material/wilderness/spriteWilderness.json"].textures;
     MountainTextureAtlas = Loader.resources["images/material/mountains/spriteMountains.json"].textures;
+    JellyTextureAtlas = Loader.resources["images/material/jelly/allJellyMonster.json"].textures;
 }
 
 

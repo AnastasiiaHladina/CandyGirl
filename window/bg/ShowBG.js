@@ -4,7 +4,7 @@ import {randomInteger, randomFloat} from '../util/Random';
 let Sprite = PIXI.Sprite; 
 let Loader = PIXI.loader;
 let TilingSprite = PIXI.extras.TilingSprite;
-let BGTextureAtlas, Bg, Floor, Bush1, Bush2, AllWay, Scale;
+let BGTextureAtlas, Bg, Floor, EndLevel, Scale, TilingNo;
 let elements = [],
     Bush = [],
     Tree = [],
@@ -18,8 +18,8 @@ const gameLoop = (delta)=>{
         el.rotation += 0.01;
     })
 }
-const BG = (app, scene) => {
-    AllWay = 0;
+const BG = (app, scene) => { 
+    EndLevel = app.EndLevel;
     if(scene === 1){
         ShowMainScreen(app);
     }
@@ -29,8 +29,8 @@ const BG = (app, scene) => {
 } 
 
 function MoveAll(x){  
-    if((Floor.tilePosition.x - x) < 0){
-        AllWay += x; 
+    if((Floor.tilePosition.x - x) < 0 && ((Floor.tilePosition.x * -1) + window.innerWidth/2) < EndLevel){ //<0 потому, ччто мы делаем отнимание и там всегда отриц.ч.
+        TilingNo = true;
         for(let i = 0; i < countTree; i++){
             Tree[i].x -= x; 
         }
@@ -41,7 +41,10 @@ function MoveAll(x){
             Rock[i].x -= x;
         }
         Floor.tilePosition.x -=x;
-        Bg.tilePosition.x -=2; 
+        Bg.tilePosition.x -=2;
+        //console.log(Floor.tilePosition.x * -1, EndLevel);
+    }else{
+        TilingNo = false;
     }
 } 
 
@@ -80,25 +83,19 @@ function ShowFirstLevel(app){
         Rock[i].y = window.innerHeight - Floor.height - (Rock[i].height/2) + 1; 
         Rock[i].anchor.set(0.5, 0.5); 
     }    
-    //if(AllWay === )
-    //if(PositionGirlByX(),)
-    //console.log(PositionGirlByX());
+    
     app.stage.addChild(Bg, Floor);
     app.stage.addChild(...Rock, ...Tree, ...Bush); 
 }
 
-function checkGirlPos(girlPos, c){
-
-}
 
 function ShowMainScreen(app){
     BGTextureAtlas = new Sprite(
         Loader.resources["images/material/GUI/main/all/BG.png"].texture
     ); 
     for(let x = 0; x < 6; x++){
-         
-        let texture = PIXI.utils.TextureCache["images/material/GUI/main/all/"+ (x + 12) +".png"];  
-        elements[x] = new PIXI.Sprite(texture); 
+        let temp = x + 12; 
+        elements[x] = new Sprite(app.FiguresTextureAtlas[temp + ".png"]);  
         
         elements[x].scale.set(0.5, 0.5);
         elements[x].anchor.set(0.5, 0.5);
@@ -134,7 +131,10 @@ const getWidth = () => {
 const getHeight = () => {
     return Floor.height;
 }
+const Tiling = () => {
+    return TilingNo;
+}
 
 module.exports = {
-    BG, gameLoop, getX, getY, getWidth, getHeight, MoveAll, setXGirl
+    BG, gameLoop, getX, getY, getWidth, getHeight, MoveAll, setXGirl, Tiling
 }

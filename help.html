@@ -245,6 +245,57 @@
             uvs: true 
          }
       );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      function GirlRun(app, isRun){
+    if(isRun){
+        app.stage.removeChild(girl);
+        for (let i = 0; i < 20; i++) {
+            let texture = Texture.fromFrame('girlRun (' + (i + 1) + ').png');
+            GirlAnimation.push(texture);
+            girl = new Extras.AnimatedSprite(GirlAnimation);
+            girl.gotoAndPlay(0);
+            girl.scale.set(0.5, 0.5);
+            girl.anchor.set(0.5, 0.5);
+            isRun *= -1;
+        }
+    }else{
+        girl = new Sprite(GirlTextureAtlas["girlIdle (1).png"]);
+        girl.scale.set(0.5, 0.5);    
+        girl.anchor.set(0.5, 0.5);
+        girl.x = girl.width;
+        girl.y = vy;    
+    }
+}
 */
 </style>
 </script>

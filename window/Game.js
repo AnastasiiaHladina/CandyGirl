@@ -2,8 +2,9 @@ import * as PIXI from 'pixi.js';
 import {GUI, GetGirlHealth, SetGirlHealth} from './GUI/ShowGUI.js';
 import {hitRectangle} from './util/ContactOfTwoRectangles.js'; 
 import * as Girl from './entity/girl/Girl.js';
-import {BG, MoveAll, setXGirl, getHeight} from './bg/ShowBG.js'; 
-let q = 0, c = 0, x;
+import * as Jelly from './entity/jellyMonsters/jellyMonsters.js';
+import {BG, MoveAll, setXGirl, getHeight, Tiling} from './bg/ShowBG.js'; 
+let q = 0, c = 0, x, speed = 20;
 
 
 const keyboard = (window, app) => {
@@ -12,30 +13,33 @@ const keyboard = (window, app) => {
         setKey(e.keyCode);
         if(isKeyDown('up') && isKeyDown('left')){
             Girl.AnimateGirl(app, -5); 
-            MoveAll(-5);
+            MoveAll(speed * (-1));
+            Jelly.MoveAllJelly(speed * (-1), Tiling);
         } 
         else if(isKeyDown('up') && isKeyDown('right')){
             Girl.AnimateGirl(app, 5); 
-            MoveAll(5);
+            MoveAll(speed);
+            Jelly.MoveAllJelly(speed, Tiling);
         } 
-        else if(isKeyDown('up')){
-           // Girl.AnimateGirl(app, 0, -20);  
+        else if(isKeyDown('up')){ 
            Girl.setJump(true);
         } 
         else if(isKeyDown('left')){
             q = 1 + c%20;
             c++;
             Girl.AnimateGirl(app, x * (-1), q); 
-            MoveAll(-5);
+            MoveAll(speed * (-1));
+            Jelly.MoveAllJelly(speed * (-1), Tiling);
         } 
         else if(isKeyDown('right')){
             q = 1 + c%20;
             c++;
             Girl.AnimateGirl(app, x, q); 
-            MoveAll(5);
+            MoveAll(speed);
+            Jelly.MoveAllJelly(speed, Tiling);
         }
         else if(isKeyDown('0')){
-            Girl.GirlAttack();
+            Girl.GirlAttack(app);
         }
     });
     window.addEventListener('keyup', function(e){
@@ -83,7 +87,8 @@ module.exports = (app, window) => {
 
     BG(app, 2);//First Level
     Girl.InitGirl(app, getHeight);
-    GUI(app);
+    Jelly.InitJelly(app, getHeight);
+    GUI(app, Girl.GetCountCandy);
     keyboard(window, app);
     
     // добавляем функцию апдейт

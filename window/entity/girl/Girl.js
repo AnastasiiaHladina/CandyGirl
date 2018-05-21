@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'; 
 import {hitRectangle} from '../../util/ContactOfTwoRectangles.js';  
-
+import {randomInteger} from '../../util/Random';    
 
 const ticker = new PIXI.ticker.Ticker();
 let Sprite = PIXI.Sprite; 
@@ -8,8 +8,8 @@ let Texture =  PIXI.Texture;
 let Loader = PIXI.loader;
 let Extras = PIXI.extras;
 let TilingSprite = PIXI.extras.TilingSprite;
-let girl, GirlTextureAtlas, GirlAnimation = [];
-let vy, currentX;
+let girl, GirlTextureAtlas, CandyTextureAtlas, GirlAnimation = [];
+let vy, currentX, Candy, countCandy = 10;
 let check = true;
 
 // в прыжке сейчас?
@@ -80,8 +80,16 @@ const InitGirl = (app, getHeight) => {
 }
 
 
-function GirlAttack(){
-
+function GirlAttack(app){
+    if(countCandy){
+        CandyTextureAtlas = app.CandyTextureAtlas;
+        Candy = new Sprite(CandyTextureAtlas[randomInteger(1, 5)+".png"]);
+        Candy.x = WidthGirl();
+        Candy.y = vy;
+        Candy.width = WidthGirl() - WidthGirl()/1.5;
+        Candy.height = WidthGirl() - WidthGirl()/1.5;
+        app.stage.addChild(Candy);
+    }
 }
 
 
@@ -130,6 +138,9 @@ const PositionGirlByY = () => {
 const WidthGirl = () => {
     return girl.width;
 }
+const GetCountCandy = () =>{
+    return countCandy;
+}
 
 module.exports = {
     InitGirl, 
@@ -139,5 +150,6 @@ module.exports = {
     WidthGirl,
     updateGirl,
     setJump, 
-    
+    GetCountCandy,
+    GirlAttack
 }

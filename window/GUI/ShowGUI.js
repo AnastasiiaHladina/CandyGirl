@@ -24,7 +24,7 @@ const gameLoop = (delta)=>{
         el.rotation += 0.01;
     })
 }
-const GUI = (app) => {
+const GUI = (app, GetCountCandy) => {
     GUITextureAtlas = app.GUITextureAtlas;
     guiCandy = new Sprite(GUITextureAtlas['2.png']);
     guiCandy.x = window.innerWidth/10;
@@ -46,16 +46,14 @@ const GUI = (app) => {
     Plus = new Sprite(GUITextureAtlas['5.png']);
     Plus.x = guiHealth.x + 5;
     Plus.y = 7;
-    Plus.scale.set(0.2, 0.2);
+    Plus.scale.set(0.2, 0.2); 
 
-    Candy = new Sprite(
-        Loader.resources["images/material/attack/allCandy/3.png"].texture
-    );
+    Candy = new Sprite(app.CandyTextureAtlas["3.png"]);  
     Candy.x = guiCandy.x + 5;
     Candy.y = 7;
     Candy.scale.set(0.2, 0.2);
 
-    let countCandy = new Text("0", style);
+    let countCandy = new Text(GetCountCandy(), style);
     countCandy.x = guiCandy.x + guiCandy.width/2;
     countCandy.y = 5;
 
