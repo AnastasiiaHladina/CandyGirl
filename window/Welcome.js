@@ -6,19 +6,19 @@ let Container = PIXI.Container;
 let Sprite = PIXI.Sprite;
 let StartContainer;
 
-module.exports = (app, GUITextureAtlas, callback) => {
+module.exports = (app, callback) => {
     app.stage.removeChild(StartContainer);
     StartContainer = new Container();
     
-    GUI = new Sprite(GUITextureAtlas["0.png"]);
+    GUI = new Sprite(app.GUITextureAtlas["0.png"]);
     GUI.scale.set(0.5, 0.5);
     GUI.position.set((window.innerWidth/2) - (GUI.width/2), (window.innerHeight/2) - (GUI.height/2));
 
-    ButtonStart = new Sprite(GUITextureAtlas["30.png"]);//Button Start
+    ButtonStart = new Sprite(app.GUITextureAtlas["30.png"]);//Button Start
     ButtonStart.scale.set(0.4, 0.4);
     ButtonStart.position.set((window.innerWidth/2) - (ButtonStart.width/2), (window.innerHeight/2) - (ButtonStart.height));
 
-    ButtonSettings = new Sprite(GUITextureAtlas["19.png"]);//Button Settings
+    ButtonSettings = new Sprite(app.GUITextureAtlas["19.png"]);//Button Settings
     ButtonSettings.scale.set(0.4, 0.4);
     ButtonSettings.position.set((window.innerWidth/2) - (ButtonSettings.width/2), (window.innerHeight/2) + (ButtonSettings.height/3));
     

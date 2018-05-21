@@ -8,7 +8,7 @@ let Text = PIXI.Text;
 let TextStyle = PIXI.TextStyle;
 let TilingSprite = PIXI.extras.TilingSprite;
 let guiCandy, guiHealth, rectHealth, GirlHealth, Plus, Candy;
-let GUIContainer, HealthContainer, CandyContainer;
+let GUIContainer, HealthContainer, CandyContainer, GUITextureAtlas;
 let style = new TextStyle({
     fontFamily: "Buxton Sketch",
     fontSize: 26,
@@ -24,8 +24,8 @@ const gameLoop = (delta)=>{
         el.rotation += 0.01;
     })
 }
-const GUI = (app, GUITextureAtlas) => {
-
+const GUI = (app) => {
+    GUITextureAtlas = app.GUITextureAtlas;
     guiCandy = new Sprite(GUITextureAtlas['2.png']);
     guiCandy.x = window.innerWidth/10;
     guiCandy.y = 0;

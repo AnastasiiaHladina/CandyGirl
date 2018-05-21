@@ -46,7 +46,7 @@ function MoveAll(x){
 } 
 
 function ShowFirstLevel(app){ 
-    BGTextureAtlas = Loader.resources["images/material/forest/spriteForest.json"].textures; 
+    BGTextureAtlas = app.ForestTextureAtlas; 
 
     Floor = new TilingSprite(BGTextureAtlas["2.png"]);
     Floor.width = window.innerWidth;
@@ -96,10 +96,9 @@ function ShowMainScreen(app){
         Loader.resources["images/material/GUI/main/all/BG.png"].texture
     ); 
     for(let x = 0; x < 6; x++){
-        //console.log("images/material/GUI/main/all/"+ (x + 12) +".png");
-        elements[x] = new Sprite(
-            Loader.resources["images/material/GUI/main/all/"+ (x + 12) +".png"].texture
-        );
+         
+        let texture = PIXI.utils.TextureCache["images/material/GUI/main/all/"+ (x + 12) +".png"];  
+        elements[x] = new PIXI.Sprite(texture); 
         
         elements[x].scale.set(0.5, 0.5);
         elements[x].anchor.set(0.5, 0.5);

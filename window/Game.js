@@ -34,16 +34,17 @@ const keyboard = (window, app) => {
             Girl.AnimateGirl(app, x, q); 
             MoveAll(5);
         }
-        else if(isKeyDown('0')){ 
+        else if(isKeyDown('0')){
+            Girl.GirlAttack();
         }
     });
     window.addEventListener('keyup', function(e){
         clearKey(e.keyCode);
-        if(isKeyDown('left')){
-            Girl.AnimateGirl(app, x * (-1),0); 
-            MoveAll(0);
-
-            //setXGirl(Girl.PositionGirlByX());
+        if(isKeyUp('left')){
+            Girl.AnimateGirl(app, 0, 0);   
+        } 
+        if(isKeyUp('right')){
+            Girl.AnimateGirl(app, 0, 0);   
         } 
     });
 }
@@ -78,11 +79,11 @@ function isKeyUp(keyName){
 }
 
 
-module.exports = (app, GirlTextureAtlas, GUITextureAtlas, window) => {
+module.exports = (app, window) => {
 
     BG(app, 2);//First Level
-    Girl.InitGirl(app, GirlTextureAtlas, getHeight);
-    GUI(app, GUITextureAtlas);
+    Girl.InitGirl(app, getHeight);
+    GUI(app);
     keyboard(window, app);
     
     // добавляем функцию апдейт

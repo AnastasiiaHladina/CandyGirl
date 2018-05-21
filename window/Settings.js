@@ -8,27 +8,27 @@ let Sprite = PIXI.Sprite;
 let SettingsContainer;
 let ButtonSettingsHome, ButtonSettingsSound, ButtonSettingsMusic, ButtonSettingsOk;
 
-module.exports = (app, GUITextureAtlas, callback) => {
+module.exports = (app, callback) => {
     app.stage.removeChild(SettingsContainer); 
     SettingsContainer = new Container();
 
-    GUI = new Sprite(GUITextureAtlas["11.png"]);
+    GUI = new Sprite(app.GUITextureAtlas["11.png"]);
     GUI.scale.set(0.5, 0.5);
     GUI.position.set((window.innerWidth/2) - (GUI.width/2), (window.innerHeight/2) - (GUI.height/2));
 
-    ButtonSettingsHome = new Sprite(GUITextureAtlas["29.png"]);//Button Home
+    ButtonSettingsHome = new Sprite(app.GUITextureAtlas["29.png"]);//Button Home
     ButtonSettingsHome.scale.set(0.4, 0.4);
     ButtonSettingsHome.position.set((window.innerWidth/2) - (ButtonSettingsHome.width * 2.5), (window.innerHeight/2) - (ButtonSettingsHome.height / 2));
 
-    ButtonSettingsSound = new Sprite(GUITextureAtlas["24.1.png"]);//Button Sound
+    ButtonSettingsSound = new Sprite(app.GUITextureAtlas["24.1.png"]);//Button Sound
     ButtonSettingsSound.scale.set(0.4, 0.4);
     ButtonSettingsSound.position.set((window.innerWidth/2) - (ButtonSettingsSound.width * 1.25), (window.innerHeight/2) - (ButtonSettingsSound.height /2));
 
-    ButtonSettingsMusic = new Sprite(GUITextureAtlas["25.1.png"]);//Button Music
+    ButtonSettingsMusic = new Sprite(app.GUITextureAtlas["25.1.png"]);//Button Music
     ButtonSettingsMusic.scale.set(0.4, 0.4);
     ButtonSettingsMusic.position.set((window.innerWidth/2) + (ButtonSettingsMusic.width * 0.1), (window.innerHeight/2) - (ButtonSettingsMusic.height /2));
 
-    ButtonSettingsOk = new Sprite(GUITextureAtlas["31.png"]);//Button Ok
+    ButtonSettingsOk = new Sprite(app.GUITextureAtlas["31.png"]);//Button Ok
     ButtonSettingsOk.scale.set(0.4, 0.4);
     ButtonSettingsOk.position.set((window.innerWidth/2) + (ButtonSettingsOk.width * 1.25), (window.innerHeight/2) - (ButtonSettingsOk.height / 2));
  
@@ -49,8 +49,7 @@ module.exports = (app, GUITextureAtlas, callback) => {
         alert(3);
     })
 
-    ButtonSettingsOk.on("click", function(){ 
-        //alert(4);
+    ButtonSettingsOk.on("click", function(){  
         app.stage.removeChild(SettingsContainer); 
         callback(1);
     })
