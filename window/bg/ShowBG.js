@@ -16,7 +16,7 @@ let countBush = 32, countTree = 24, countRock = 24 ;
 const gameLoop = (delta)=>{
     elements.forEach((el)=>{
         el.rotation += 0.01;
-    })
+    });
 }
 const BG = (app, scene) => { 
     EndLevel = app.EndLevel;
@@ -29,7 +29,8 @@ const BG = (app, scene) => {
 } 
 
 function MoveAll(x){  
-    if((Floor.tilePosition.x - x) < 0 && ((Floor.tilePosition.x * -1) + window.innerWidth/2) < EndLevel){ //<0 потому, ччто мы делаем отнимание и там всегда отриц.ч.
+    if((Floor.tilePosition.x - x) < 0 && ((Floor.tilePosition.x * -1) + window.innerWidth/2) < EndLevel){ 
+        //<0 потому, ччто мы делаем отнимание и там всегда отриц.ч.
         TilingNo = true;
         for(let i = 0; i < countTree; i++){
             Tree[i].x -= x; 
