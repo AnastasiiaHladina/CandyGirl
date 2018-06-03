@@ -113,7 +113,7 @@
   -moz-background-clip: padding;
   border-radius: 10px 10px 7px 7px;
   background-clip: padding-box;
-  background: #fad5a5;/*ногти*/
+  background: #ce4100;/*ногти*/
 }
 .loading .last-finger {
   position: relative;
@@ -160,7 +160,7 @@
   -moz-background-clip: padding;
   border-radius: 0 0 15px 15px;
   background-clip: padding-box;
-  background: #fad5a5;
+  background: #ce4100;
 }
 @-webkit-keyframes finger-1-animation {
   0% {

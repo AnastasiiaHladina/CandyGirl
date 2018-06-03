@@ -4,36 +4,32 @@
   <meta charset="utf-8">
   <title>Hello World</title>
   <link href="css/style.css" rel="stylesheet">
+  <link href="css/form.css" rel="stylesheet">
 </head> 
   <style>
     *{padding: 0; margin: 0}
+
   </style>
 <body> 
-		<div class="loading">
-        <div class="finger finger-1">
-          <div class="finger-item">
-            <span></span><i></i>
-          </div>
-        </div>
-        <div class="finger finger-2">
-          <div class="finger-item">
-            <span></span><i></i>
-          </div>
-        </div>
-        <div class="finger finger-3">
-          <div class="finger-item">
-            <span></span><i></i>
-          </div>
-        </div>
-        <div class="finger finger-4">
-          <div class="finger-item">
-            <span></span><i></i>
-          </div>
-        </div>
-        <div class="last-finger">
-          <div class="last-finger-item"><i></i></div>
-        </div>
-    </div>
+
+
+<div id="login">
+  <form action="javascript:void(0);" method="get">
+      <fieldset class="clearfix">
+        <p><strong>Enter your name and password to log in</strong></p><br>
+          <p> 
+            <span class="fontawesome-user"></span>
+            <input value="Name" onblur="if(this.value == '') this.value = 'Name'" onfocus="if(this.value == 'Name') this.value = ''" required="" type="text">
+          </p> <!-- JS because of IE support; better: placeholder="Username" -->
+          <p>
+            <span class="fontawesome-lock"></span>
+            <input value="Password" onblur="if(this.value == '') this.value = 'Password'" onfocus="if(this.value == 'Password') this.value = ''" required="" type="password">
+          </p> <!-- JS because of IE support; better: placeholder="Password" -->
+          <p><input value="Login" type="submit" id="in"></p>
+      </fieldset>
+  </form> 
+</div>
+
 </body>
- <script src="bundle.js"></script>
+<script src="bundle.js"></script>
 </html>

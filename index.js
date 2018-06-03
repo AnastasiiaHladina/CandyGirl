@@ -3,6 +3,37 @@ import * as Screens from './window';
 import {BG}  from './window/bg/ShowBG';  
 import removeAll from './window/util/removeAll'; 
 
+  let buttonIn = document.getElementById('in');
+  var self = this;
+  buttonIn.addEventListener("click", function(e){
+    document.body.innerHTML = `<div class="loading">
+      <div class="finger finger-1">
+        <div class="finger-item">
+          <span></span><i></i>
+        </div>
+      </div>
+      <div class="finger finger-2">
+        <div class="finger-item">
+          <span></span><i></i>
+        </div>
+      </div>
+      <div class="finger finger-3">
+        <div class="finger-item">
+          <span></span><i></i>
+        </div>
+      </div>
+      <div class="finger finger-4">
+        <div class="finger-item">
+          <span></span><i></i>
+        </div>
+      </div>
+      <div class="last-finger">
+        <div class="last-finger-item"><i></i></div>
+      </div>
+    </div>`;
+    Load();
+  });
+
  //Создание псевдонимов
  let type = "WebGL";
  let Utils = PIXI.utils;
@@ -20,40 +51,41 @@ import removeAll from './window/util/removeAll';
   JellyTextureAtlas; 
  let app; 
 
- if(!Utils.isWebGLSupported()){
-   type = "canvas"
- }
+function Load(){
+	 if(!Utils.isWebGLSupported()){
+	   type = "canvas"
+	 }
 
- Utils.sayHello(type);
+	 Utils.sayHello(type);
 
- //загрузка картинок
- Loader
-   .add([ 
-       "images/material/GUI/main/all/BG.png",]);
- Loader
-   .add([
-       "images/material/GUI/main/GUI.json",       
-       "images/material/girl/spriteGirl.json",
-       "images/material/forest/spriteForest.json", 
-       "images/material/cat/spriteCat.json", 
-       "images/material/dog/spriteDog.json",  
-       "images/material/jelly/allJellyMonster.json", 
-       "images/material/wilderness/spriteWilderness.json", 
-       "images/material/mountains/spriteMountains.json", 
-       "images/material/attack/spriteCandy.json",
-       "images/material/GUI/main/Figures.json"
-   ])
-   .on("progress", loadProgressHandler)
-   .load(setup);
+	 //загрузка картинок
+	 Loader
+	   .add([ 
+	       "images/material/GUI/main/all/BG.png",]);
+	 Loader
+	   .add([
+	       "images/material/GUI/main/GUI.json",       
+	       "images/material/girl/spriteGirl.json",
+	       "images/material/forest/spriteForest.json", 
+	       "images/material/cat/spriteCat.json", 
+	       "images/material/dog/spriteDog.json",  
+	       "images/material/jelly/allJellyMonster.json", 
+	       "images/material/wilderness/spriteWilderness.json", 
+	       "images/material/mountains/spriteMountains.json", 
+	       "images/material/attack/spriteCandy.json",
+	       "images/material/GUI/main/Figures.json"
+	   ])
+	   .on("progress", loadProgressHandler)
+	   .load(setup);
 
- function loadProgressHandler(loader, resource) {
-   console.log("loading: " + resource.url);//Вывод названия ресурса
-   console.log("progress: " + loader.progress + "%");//Вывод прогресса загрузки
- }
+	 function loadProgressHandler(loader, resource) {
+	   console.log("loading: " + resource.url);//Вывод названия ресурса
+	   console.log("progress: " + loader.progress + "%");//Вывод прогресса загрузки
+	 }
+}
 
  //выполнится после загрузки картинки
- function setup(){
-{
+ function setup(){ 
      //параметры приложения
      app = new Application({
         width: 256, 
@@ -67,9 +99,12 @@ import removeAll from './window/util/removeAll';
     app.renderer.autoResize = true;
     app.renderer.resize(window.innerWidth, window.innerHeight);
     app.EndLevel = 10000;
+
+     var loading = document.getElementsByClassName('loading')[0];
+     loading.parentNode.removeChild(loading);
     //добавляем канвас(PIXI автоматически создал его)
     document.body.appendChild(app.view);  
-}
+ 
  
     initTexture();
     app.GirlTextureAtlas = GirlTextureAtlas;
@@ -154,5 +189,4 @@ import removeAll from './window/util/removeAll';
     MountainTextureAtlas = Loader.resources["images/material/mountains/spriteMountains.json"].textures;
     JellyTextureAtlas = Loader.resources["images/material/jelly/allJellyMonster.json"].textures;
 }
-
-
+ 
