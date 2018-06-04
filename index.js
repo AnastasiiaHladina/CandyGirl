@@ -2,6 +2,8 @@ import * as PIXI from 'pixi.js';
 import * as Screens from './window';  
 import {BG}  from './window/bg/ShowBG';  
 import removeAll from './window/util/removeAll'; 
+import  * as Music from './window/music/Music'; 
+
 
   let buttonIn = document.getElementById('in');
   var self = this;
@@ -31,7 +33,10 @@ import removeAll from './window/util/removeAll';
         <div class="last-finger-item"><i></i></div>
       </div>
     </div>`;
+
     Load();
+
+
   });
 
  //Создание псевдонимов
@@ -56,7 +61,7 @@ function Load(){
 	   type = "canvas"
 	 }
 
-	 Utils.sayHello(type);
+	 Utils.sayHello(type);//Выводит информацию о версии и визуализаторе
 
 	 //загрузка картинок
 	 Loader
@@ -99,9 +104,10 @@ function Load(){
     app.renderer.autoResize = true;
     app.renderer.resize(window.innerWidth, window.innerHeight);
     app.EndLevel = 10000;
-
-     var loading = document.getElementsByClassName('loading')[0];
-     loading.parentNode.removeChild(loading);
+    app.BackgroundMusic = ['effect/pogo-upular.mp3'];
+    Music.Audio_Start(app.BackgroundMusic); 
+    let loading = document.getElementsByClassName('loading')[0];
+    loading.parentNode.removeChild(loading);
     //добавляем канвас(PIXI автоматически создал его)
     document.body.appendChild(app.view);  
  
@@ -131,7 +137,7 @@ function Load(){
         Screens.Welcome(app, showGUI);
     }
     if(whichGUI === 2){
-        showBackground(1);//Main
+        showBackground(1);//Main 
         Screens.Settings(app, showGUI);
     }
     if(whichGUI === 3){
@@ -139,7 +145,9 @@ function Load(){
         Screens.SetLevel(app, showGUI);
     }
     if(whichGUI === 4){
-        Screens.Game(app, window);
+    	Music.Audio_Stop(); 
+        Screens.Game(app, window); 
+        
     }
  }
 

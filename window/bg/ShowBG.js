@@ -13,7 +13,7 @@ let countBush = 32, countTree = 24, countRock = 24 ;
 
 
 
-const gameLoop = (delta)=>{
+const gameLoop = (delta) => {
     elements.forEach((el)=>{
         el.rotation += 0.01;
     });

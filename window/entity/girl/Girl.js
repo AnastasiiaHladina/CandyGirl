@@ -89,9 +89,15 @@ function GirlAttack(app){
         Candy.width = WidthGirl() - WidthGirl()/1.5;
         Candy.height = WidthGirl() - WidthGirl()/1.5;
         app.stage.addChild(Candy);
+        ticker.start();
     }
 }
 
+
+ticker.stop();
+ticker.add((deltaTime) => {
+    Candy.x += 3;
+});
 
 
 const updateGirl = (delta) => {
