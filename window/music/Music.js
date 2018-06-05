@@ -1,63 +1,56 @@
 let massCount;
-let audioArr = []; 
-
-const Audio_Start_Stop = (url) => {
+let audioArr = [
+    'effect/c418 sweden.mp3',   //0
+    'effect/forest.mp3',        //1
+    'effect/night.mp3',         //2
+    'effect/wind.mp3',          //3
+    'effect/ShortRun.mp3',      //4
+    'effect/ShortQuit.mp3',     //5
+    'effect/ShortHrum.mp3',     //6
+    'effect/ShortCry.mp3',      //7
+]; 
+let ActiveAudio = []; 
+//Проигрывается 1 раз
+const Audio_Start_Stop = (id) => {
     let OneAudio = new Audio(); 
-    OneAudio.src = url; 
+    OneAudio.src = audioArr[id]; 
     OneAudio.preload = true;
     OneAudio.type='audio/mp3; codecs=vorbis';
     OneAudio.autoplay = true;
     RemoveAudio(OneAudio);
 }
+
+
 function RemoveAudio(audio){
     audio = null;
 }
 
 
-
-const Audio_Start = (audioMass) => {
-    DeleteAudio();
-    massCount = audioMass.length; 
-    console.log(audioMass, massCount)
-    for(let i = 0; i < audioMass.length; i++){
-        audioArr[i] = new Audio(); 
-        audioArr[i].src = audioMass[i]; 
-        audioArr[i].preload = true; //предзагрузка
-        audioArr[i].loop = true; //повтор
-        audioArr[i].autoplay = true; // Автоматически запускаем   
-        audioArr[i].type='audio/mp3; codecs=vorbis';
-    }
-
+//Проигрывается постоянно
+const Audio_Start = (i) => { 
+    ActiveAudio[i] = new Audio();  
+    ActiveAudio[i].src = audioArr[i];
+    ActiveAudio[i].preload = true; //предзагрузка
+    ActiveAudio[i].loop = true; //повтор
+    ActiveAudio[i].autoplay = true; // Автоматически запускаем   
+    ActiveAudio[i].type='audio/mp3; codecs=vorbis'; 
 }
+
+
+//Пауза для всего
 const Audio_Stop = () => {
-    for(let i = 0; i < massCount; i++){ 
-        audioArr[i].pause();
+    for(let i = 0; i < audioArr.length; i++){ 
+        //audioArr[i].pause();
     }
 }
 
 
-
-const Start_One_Of_Audio = (id) => {
-    if(massCount >  id){
-        audioArr[id].autoplay = true;
-    }  
+//Пауза для 1 песни из множества
+const Stop_One_Of_Audio = (i) => { 
+    ActiveAudio[i].pause();
 }
-const Stop_One_Of_Audio = (id) => {
-    if(massCount >  id){
-        audioArr[id].pause();
-    }
-}
-
-
-
-function DeleteAudio(){
-    audioArr = [];
-    massCount = 0;
-}
-
-
-
-
+ 
+ 
 module.exports = {
-    Audio_Start, Audio_Stop, Start_One_Of_Audio, Stop_One_Of_Audio, Audio_Start_Stop
+    Audio_Start, Audio_Stop, Stop_One_Of_Audio, Audio_Start_Stop
 }

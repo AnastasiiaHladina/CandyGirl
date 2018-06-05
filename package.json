@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jquery": "^3.3.1",
     "pixi-filters": "^2.6.1",
     "pixi.js": "^4.7.3"
   },

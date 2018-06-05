@@ -1,42 +1,59 @@
+import $ from "jquery";
 import * as PIXI from 'pixi.js';
 import * as Screens from './window';  
 import {BG}  from './window/bg/ShowBG';  
 import removeAll from './window/util/removeAll'; 
-import  * as Music from './window/music/Music'; 
+import  * as Music from './window/music/Music';
 
 
   let buttonIn = document.getElementById('in');
-  var self = this;
-  buttonIn.addEventListener("click", function(e){
-    document.body.innerHTML = `<div class="loading">
-      <div class="finger finger-1">
-        <div class="finger-item">
-          <span></span><i></i>
-        </div>
-      </div>
-      <div class="finger finger-2">
-        <div class="finger-item">
-          <span></span><i></i>
-        </div>
-      </div>
-      <div class="finger finger-3">
-        <div class="finger-item">
-          <span></span><i></i>
-        </div>
-      </div>
-      <div class="finger finger-4">
-        <div class="finger-item">
-          <span></span><i></i>
-        </div>
-      </div>
-      <div class="last-finger">
-        <div class="last-finger-item"><i></i></div>
-      </div>
-    </div>`;
+  let token, level;
 
-    Load();
+  buttonIn.addEventListener("click", function(e) {
+  	$.ajax({
+	  url: 'http://localhost:3000/login',
+	  type:"POST",
+	  dataType: 'json',
+	  data: JSON.stringify({
+	  	Name: $('input[type=text]').val(),
+	  	Password: $('input[type=password]').val()
+	  }),
+	  contentType:"application/json; charset=utf-8",
+	  dataType:"json",
+	  success: function(res){
+	  	console.log(res.token);
+	  	token = res.token;
+	  	level = res.level;
 
+	  	document.body.innerHTML = `<div class="loading">
+	      <div class="finger finger-1">
+	        <div class="finger-item">
+	          <span></span><i></i>
+	        </div>
+	      </div>
+	      <div class="finger finger-2">
+	        <div class="finger-item">
+	          <span></span><i></i>
+	        </div>
+	      </div>
+	      <div class="finger finger-3">
+	        <div class="finger-item">
+	          <span></span><i></i>
+	        </div>
+	      </div>
+	      <div class="finger finger-4">
+	        <div class="finger-item">
+	          <span></span><i></i>
+	        </div>
+	      </div>
+	      <div class="last-finger">
+	        <div class="last-finger-item"><i></i></div>
+	      </div>
+	    </div>`;
 
+	    Load();
+	  }
+	});
   });
 
  //Создание псевдонимов
@@ -74,7 +91,7 @@ function Load(){
 	       "images/material/forest/spriteForest.json", 
 	       "images/material/cat/spriteCat.json", 
 	       "images/material/dog/spriteDog.json",  
-	       "images/material/jelly/allJellyMonster.json", 
+	       "images/material/jelly/animals/Forest_Animal.json", 
 	       "images/material/wilderness/spriteWilderness.json", 
 	       "images/material/mountains/spriteMountains.json", 
 	       "images/material/attack/spriteCandy.json",
@@ -104,8 +121,7 @@ function Load(){
     app.renderer.autoResize = true;
     app.renderer.resize(window.innerWidth, window.innerHeight);
     app.EndLevel = 10000;
-    app.BackgroundMusic = ['effect/pogo-upular.mp3'];
-    Music.Audio_Start(app.BackgroundMusic); 
+    Music.Audio_Start(0); 
     let loading = document.getElementsByClassName('loading')[0];
     loading.parentNode.removeChild(loading);
     //добавляем канвас(PIXI автоматически создал его)
@@ -145,7 +161,7 @@ function Load(){
         Screens.SetLevel(app, showGUI);
     }
     if(whichGUI === 4){
-    	Music.Audio_Stop(); 
+    	Music.Stop_One_Of_Audio(0); 
         Screens.Game(app, window); 
         
     }
@@ -195,6 +211,6 @@ function Load(){
     ForestTextureAtlas = Loader.resources["images/material/forest/spriteForest.json"].textures;
     DesertTextureAtlas = Loader.resources["images/material/wilderness/spriteWilderness.json"].textures;
     MountainTextureAtlas = Loader.resources["images/material/mountains/spriteMountains.json"].textures;
-    JellyTextureAtlas = Loader.resources["images/material/jelly/allJellyMonster.json"].textures;
+    JellyTextureAtlas = Loader.resources["images/material/jelly/animals/Forest_Animal.json"].textures;
 }
  

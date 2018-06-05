@@ -1,0 +1,75 @@
+{"frames": {
+
+"Animal 1.png":
+{
+	"frame": {"x":273,"y":0,"w":137,"h":165},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":137,"h":165},
+	"sourceSize": {"w":137,"h":165},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Animal 2.png":
+{
+	"frame": {"x":0,"y":184,"w":162,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":162,"h":140},
+	"sourceSize": {"w":162,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Animal 3.png":
+{
+	"frame": {"x":0,"y":324,"w":191,"h":160},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":191,"h":160},
+	"sourceSize": {"w":191,"h":160},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Animal 4.png":
+{
+	"frame": {"x":136,"y":0,"w":137,"h":184},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":137,"h":184},
+	"sourceSize": {"w":137,"h":184},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Animal 5.png":
+{
+	"frame": {"x":191,"y":324,"w":192,"h":179},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":192,"h":179},
+	"sourceSize": {"w":192,"h":179},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Animal 6.png":
+{
+	"frame": {"x":0,"y":0,"w":136,"h":150},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":136,"h":150},
+	"sourceSize": {"w":136,"h":150},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Animal 7.png":
+{
+	"frame": {"x":162,"y":184,"w":182,"h":136},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":182,"h":136},
+	"sourceSize": {"w":182,"h":136},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Forest_Animal.png",
+	"format": "RGBA8888",
+	"size": {"w":410,"h":503},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:633779db859045b2406a02093aafbe67:73a502f5a7e8f3cf7b5b5591f5c6f95e:33ea6da8ba5f8857871769ec30bf6e47$"
+}
+}

@@ -4,12 +4,12 @@ import {randomInteger, randomFloat} from '../util/Random';
 let Sprite = PIXI.Sprite; 
 let Loader = PIXI.loader;
 let TilingSprite = PIXI.extras.TilingSprite;
-let BGTextureAtlas, Bg, Floor, EndLevel, Scale, TilingNo;
+let app, BGTextureAtlas, Bg, Floor, EndLevel, Scale, Tiling;
 let elements = [],
     Bush = [],
     Tree = [],
     Rock = [];
-let countBush = 32, countTree = 24, countRock = 24 ;  
+let countBush = 32, countTree = 24, countRock = 24;  
 
 
 
@@ -18,20 +18,21 @@ const gameLoop = (delta) => {
         el.rotation += 0.01;
     });
 }
-const BG = (app, scene) => { 
+const BG = (_app, scene) => { 
+    app = _app;
     EndLevel = app.EndLevel;
     if(scene === 1){
-        ShowMainScreen(app);
+        ShowMainScreen();
     }
     if(scene === 2){
-        ShowFirstLevel(app);
+        ShowFirstLevel();
     }
 } 
 
-function MoveAll(x){  
-    if((Floor.tilePosition.x - x) < 0 && ((Floor.tilePosition.x * -1) + window.innerWidth/2) < EndLevel){ 
+function MoveAll(x) {
+    if ((Floor.tilePosition.x - x) < 0 && ((Floor.tilePosition.x * -1) + window.innerWidth/2) < EndLevel) { 
         //<0 потому, ччто мы делаем отнимание и там всегда отриц.ч.
-        TilingNo = true;
+        Tiling = true;
         for(let i = 0; i < countTree; i++){
             Tree[i].x -= x; 
         }
@@ -44,12 +45,13 @@ function MoveAll(x){
         Floor.tilePosition.x -=x;
         Bg.tilePosition.x -=2;
         //console.log(Floor.tilePosition.x * -1, EndLevel);
-    }else{
-        TilingNo = false;
+    } else {
+        Tiling = false;
     }
+    app.Tiling = Tiling;
 } 
 
-function ShowFirstLevel(app){ 
+function ShowFirstLevel(){ 
     BGTextureAtlas = app.ForestTextureAtlas; 
 
     Floor = new TilingSprite(BGTextureAtlas["2.png"]);
@@ -60,7 +62,8 @@ function ShowFirstLevel(app){
     Bg.width = window.innerWidth;
     Bg.height = window.innerHeight;
     
-   
+   app.FloorHeight = Floor.height;
+
     for(let i = 0; i < countTree; i++){ 
         Scale = randomFloat(0.4, 1);
         Tree[i] = new Sprite(BGTextureAtlas["Tree_"+ randomInteger(2, 3) +".png"]);
@@ -90,7 +93,7 @@ function ShowFirstLevel(app){
 }
 
 
-function ShowMainScreen(app){
+function ShowMainScreen(){
     BGTextureAtlas = new Sprite(
         Loader.resources["images/material/GUI/main/all/BG.png"].texture
     ); 
@@ -131,11 +134,8 @@ const getWidth = () => {
 }
 const getHeight = () => {
     return Floor.height;
-}
-const Tiling = () => {
-    return TilingNo;
-}
+} 
 
 module.exports = {
-    BG, gameLoop, getX, getY, getWidth, getHeight, MoveAll, setXGirl, Tiling
+    BG, gameLoop, getX, getY, getWidth, getHeight, MoveAll, setXGirl, 
 }
