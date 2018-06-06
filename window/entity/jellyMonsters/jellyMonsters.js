@@ -26,7 +26,7 @@ const InitJelly = (_app,  _GirlWidth, _GirlHeight) => {
         Animals[i].scale.set(0.4, 0.4);
         Animals[i].y = window.innerHeight - app.FloorHeight - Animals[i].height/3; 
         Animals[i].anchor.set(0.5, 0.5); 
-    }   
+    }
     for(let i = 0; i < 10; i++){
         FreeCandy[i] = new Sprite(CandyTextureAtlas[randomInteger(1, 5)+".png"]);
         FreeCandy[i].x = randomInteger(500, app.EndLevel);
@@ -46,7 +46,6 @@ function gameLoop(delta){
         if(Math.abs(Animals[i].rotation) > (Math.PI / 2)){
             direction *= -1;
         }
-        /**/
     } 
 }
 

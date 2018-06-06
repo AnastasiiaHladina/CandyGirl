@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import {hitRectangle} from '../../util/ContactOfTwoRectangles.js';  
 import {randomInteger} from '../../util/Random';    
 import  * as Music from '../../music/Music'; 
-
+import removeAll from '../../util/removeAll'; 
 
 const ticker = new PIXI.ticker.Ticker();
 let Sprite = PIXI.Sprite; 
@@ -12,8 +12,8 @@ let Extras = PIXI.extras;
 let TilingSprite = PIXI.extras.TilingSprite;
 let app, Animals, FreeCandy;
 let girl, GirlTextureAtlas, CandyTextureAtlas, GirlAnimation = [];
-let vy, currentX, Candy = [], countCandy = 2, c = 0, Health;
-let check = true;
+let vy, _x, currentX, Candy = [], countCandy = 2, c = 0, Health;
+let check = true, notDead = true;
 
 // в прыжке сейчас?
 let jump = false;
@@ -30,7 +30,7 @@ let gravity = { x: 0, y: -2 };
 const AnimateGirl = (x) => {
     if (x!== undefined) { 
         if (x != 0) {
-            //girl.x += x;
+            _x = x;
             app.stage.removeChild(girl);
             GirlAnimation = [];
             girl = null;
@@ -51,7 +51,7 @@ const AnimateGirl = (x) => {
             app.stage.removeChild(girl);
             GirlAnimation = [];
             girl = null;
-            girl = new Sprite(GirlTextureAtlas["girlIdle (1).png"]);
+            girl = new Sprite(GirlTextureAtlas['girlIdle (1).png']);
             girl.scale.set(0.5, 0.5);    
             girl.anchor.set(0.5, 0.5);
             girl.y = vy;    
@@ -96,6 +96,7 @@ function GirlAttack(){
         candy.height = WidthGirl() - WidthGirl()/1.5;
         app.stage.addChild(candy);
         Candy.push(candy); 
+        countCandy -= 1;
     }
 }
 
@@ -156,7 +157,7 @@ let j, t;
                 }
                 j++;
             }
-            candy.x += 5;
+            candy.x += 8;
             candy.y *= 1.001;
             i++;
     }
@@ -168,7 +169,7 @@ let j, t;
         if(hitRectangle(girl, animal)){  
             app.Health -= 2;
             j--;
-            Music.Audio_Start_Stop(7);
+            //Music.Audio_Start_Stop(7);
         }
         j++;
     }
@@ -181,7 +182,7 @@ let j, t;
             FreeCandy.splice(t, 1);
             app.stage.removeChild(FreeC); 
             countCandy += 1;
-            console.log(countCandy)
+            Music.Audio_Start_Stop(8);
             t--;
         }
         t++;
@@ -189,10 +190,55 @@ let j, t;
 
 
 /*   DEATH   */
+    if(app.Health < 0 && check){
+        j = 0;
+        for(let animal of Animals){
+            if(hitRectangle(girl, animal)){   
+                j--;
+                Music.Stop_One_Of_Audio(1);
+                Music.Audio_Start_Stop(9);
+            }
+            j++;
+        } 
+ 
+        app.stage.removeChild(girl);
+        GirlAnimation = [];
+        girl = null;
 
+        for(let i = 0; i < 30; i++){ 
+            let texture = Texture.fromFrame('girlDead (' + (i+1) + ').png');
+            GirlAnimation.push(texture);
+        }
+            console.log(1)
+            girl = new Extras.AnimatedSprite(GirlAnimation);
+            girl.gotoAndPlay(0); 
+            girl.scale.set(0.5, 0.5);
+            if(_x * girl.scale.x < 0)girl.scale.x *= -1;  
+            girl.anchor.set(0.5, 0.5);
+            girl.x = currentX;
+            girl.y = vy;  
+            app.stage.addChild(girl);
+
+            //DeathGirl();  НАДО ПОСТАВИТЬ СЕТ ТАЙМАУТ      
+        }
+    
 
     app.countCandy = countCandy;
     
+}
+
+function DeathGirl(){
+    check = false; 
+    app.stage.removeChild(girl);
+    girl = new Sprite(GirlTextureAtlas['girlDead (30).png']);
+    girl.scale.set(0.5, 0.5);    
+    girl.anchor.set(0.5, 0.5);
+    girl.y = vy;    
+    girl.x = currentX;
+    app.stage.addChild(girl);
+    //removeAll(app.stage); 
+    
+    //app.showGUI(1);
 }
 
 const setJump = (value) => {
@@ -209,22 +255,7 @@ const WidthGirl = () => {
 }
 const HeightGirl = () => {
     return girl.height;
-}/*
-const GetCountCandy = () =>{
-    return countCandy;
 }
-
-const SetCountCandy = (_countCandy) =>{
-    countCandy = _countCandy;
-}
-
-const SetHealth = (newHealth) =>{
-    Health = newHealth;
-}
-const GetHealth = () =>{
-    return Health;
-}
-*/
 module.exports = {
     InitGirl, 
     AnimateGirl,
@@ -234,9 +265,5 @@ module.exports = {
     HeightGirl,
     updateGirl,
     setJump, 
-//   GetCountCandy,
     GirlAttack,
-    //SetCountCandy,
-//    SetHealth,
-//    GetHealth
 }

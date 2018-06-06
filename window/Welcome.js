@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import buttonHover from './util/buttonHover';
+import * as buttonAction from './util/buttonHover';
 
 let GUI, ButtonStart, ButtonSettings;
 let Container = PIXI.Container;
@@ -22,9 +22,22 @@ module.exports = (app, callback) => {
     ButtonSettings.scale.set(0.4, 0.4);
     ButtonSettings.position.set((window.innerWidth/2) - (ButtonSettings.width/2), (window.innerHeight/2) + (ButtonSettings.height/3));
     
-    buttonHover(ButtonStart);
-    buttonHover(ButtonSettings);
+    //buttonHover(ButtonStart);
+    //buttonHover(ButtonSettings);
 
+    ButtonStart.mouseover = function() { 
+        buttonAction.Over(this);
+    }
+    ButtonStart.mouseout = function() {
+        buttonAction.Out(this);
+    }
+
+    ButtonSettings.mouseover = function() {
+        buttonAction.Over(this);
+    }
+    ButtonSettings.mouseout = function() {
+        buttonAction.Out(this);
+    }
 
     ButtonStart.buttonMode = ButtonStart.interactive = true;
     ButtonSettings.buttonMode = ButtonSettings.interactive = true;    
@@ -39,4 +52,8 @@ module.exports = (app, callback) => {
 
     StartContainer.addChild(GUI, ButtonStart, ButtonSettings);
     app.stage.addChild(StartContainer); 
+}
+
+function mouse(){
+
 }

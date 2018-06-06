@@ -7,24 +7,20 @@ import {BG, MoveAll, setXGirl, getHeight} from './bg/ShowBG.js';
 import  * as Music from './music/Music'; 
 let x, speed = 10, app;
 let checkAudio = true, tempCount;
-let keyDown = {};
 
-const keyboard = (window, _app) => {
+
+const keyboard = (window) => {
 
     window.addEventListener('keydown', function(e){
-        app = _app;        
         setKey(e.keyCode);
         x = Girl.WidthGirl();
-        if(isKeyDown('up')) { 
-//            SetCountCandy( Girl.GetCountCandy() );
+        if(isKeyDown('up')) {
             Girl.setJump(true);
-
         } 
         if (isKeyDown('left')){ 
             if(checkAudio){
                 checkAudio = false; 
                 Music.Audio_Start(4);
-                //SetGirlHealth(Girl.GetHealth());
             } 
             Girl.AnimateGirl(x * (-1)); 
             MoveAll(speed * (-1));
@@ -34,22 +30,15 @@ const keyboard = (window, _app) => {
             if(checkAudio) {
                 checkAudio = false; 
                 Music.Audio_Start(4);
-                //SetGirlHealth(Girl.GetHealth());
             } 
             Girl.AnimateGirl(x); 
             MoveAll(speed);
             Jelly.MoveAllAnimals(speed);
         }
         if(isKeyDown('0')) {
+            console.log(app.countCandy);
             Music.Audio_Start_Stop(5);
             Girl.GirlAttack(); 
-            //if(app.countCandy > 0){
-            app.countCandy -= 1;
-/*                tempCount = Girl.GetCountCandy() - 1;
-                Girl.SetCountCandy( tempCount );
-                SetCountCandy( tempCount );
-*/
-            //}
         }
     });
     window.addEventListener('keyup', function(e){
@@ -76,6 +65,7 @@ function update(delta) {
     updateGUI(delta);
 }
 
+let keyDown = {};
 let keys = {
     'left' : 37,    
     'up'   : 38,
@@ -101,15 +91,14 @@ function isKeyUp(keyName){
 
  
 
-module.exports = (app, window) => {
+module.exports = (_app, window) => {
+    app = _app;        
     Music.Audio_Start(1);    
-    BG(app, 2);//First Level
+    BG(app);//First Level
     Jelly.InitJelly(app,  Girl.WidthGirl,  Girl.HeightGirl);
     Girl.InitGirl(app, Jelly.GetAllAnimals(), Jelly.GetAllFreeCandy());
-    GUI(app)
-//        , Girl.GetCountCandy);
-    //Girl.SetHealth(GetGirlHealth());    
-    keyboard(window, app); 
+    GUI(app);
+    keyboard(window); 
     // добавляем функцию апдейт
     app.ticker.add(update);
 }

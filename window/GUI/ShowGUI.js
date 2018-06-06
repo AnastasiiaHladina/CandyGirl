@@ -25,8 +25,7 @@ const gameLoop = (delta)=>{
         el.rotation += 0.01;
     })
 }
-const GUI = (_app) => {
-        //, GetCountCandy
+const GUI = (_app) => { 
     app = _app;
     GUITextureAtlas = app.GUITextureAtlas;
     CountCandy = app.countCandy;
@@ -74,13 +73,16 @@ const GUI = (_app) => {
     app.stage.addChild(TextcountCandy, rectHealth);
 }
  
-const updateGUI = (delta) =>{
-    app.stage.removeChild(rectHealth);
-    rectHealth = new Graphics();  
-    rectHealth.beginFill(0xd15276);
-    rectHealth.drawRoundedRect((guiHealth.x + guiHealth.width/6), (guiHealth.y + guiHealth.height/6), app.Health, guiHealth.height/2, 5);
-    rectHealth.endFill();
-    app.stage.addChild(rectHealth);
+const updateGUI = (delta) =>{ 
+    if(app.Health >= -1){
+        app.stage.removeChild(rectHealth);
+        rectHealth = new Graphics();  
+        rectHealth.beginFill(0xd15276);
+        rectHealth.drawRoundedRect((guiHealth.x + guiHealth.width/6), (guiHealth.y + guiHealth.height/6), app.Health, guiHealth.height/2, 5);
+        rectHealth.endFill();
+        app.stage.addChild(rectHealth);        
+    }
+
 
     app.stage.removeChild(TextcountCandy);
     TextcountCandy = new Text(app.countCandy, style);

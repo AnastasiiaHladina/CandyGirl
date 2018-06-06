@@ -8,7 +8,6 @@ import  * as Music from './window/music/Music';
 
   let buttonIn = document.getElementById('in');
   let token, level;
-
   buttonIn.addEventListener("click", function(e) {
   	$.ajax({
 	  url: 'http://localhost:3000/login',
@@ -20,11 +19,10 @@ import  * as Music from './window/music/Music';
 	  }),
 	  contentType:"application/json; charset=utf-8",
 	  dataType:"json",
-	  success: function(res){
-	  	console.log(res.token);
+	  success: function(res){ 
 	  	token = res.token;
-	  	level = res.level;
-
+	  	level = res.Level;
+ 
 	  	document.body.innerHTML = `<div class="loading">
 	      <div class="finger finger-1">
 	        <div class="finger-item">
@@ -121,6 +119,9 @@ function Load(){
     app.renderer.autoResize = true;
     app.renderer.resize(window.innerWidth, window.innerHeight);
     app.EndLevel = 10000;
+    app.token = token;
+    app.level = level;
+    Music.InitAudio(app);
     Music.Audio_Start(0); 
     let loading = document.getElementsByClassName('loading')[0];
     loading.parentNode.removeChild(loading);
@@ -147,7 +148,7 @@ function Load(){
 
  function showGUI(whichGUI){
     removeAll(app.stage);
-    
+    app.showGUI = showGUI;
     if(whichGUI === 1){
         showBackground(1);//Main
         Screens.Welcome(app, showGUI);
@@ -161,6 +162,7 @@ function Load(){
         Screens.SetLevel(app, showGUI);
     }
     if(whichGUI === 4){
+    	showBackground(0);//Main
     	Music.Stop_One_Of_Audio(0); 
         Screens.Game(app, window); 
         

@@ -4,7 +4,7 @@ import {randomInteger, randomFloat} from '../util/Random';
 let Sprite = PIXI.Sprite; 
 let Loader = PIXI.loader;
 let TilingSprite = PIXI.extras.TilingSprite;
-let app, BGTextureAtlas, Bg, Floor, EndLevel, Scale, Tiling;
+let app, BGTextureAtlas, Bg, Floor, Scale, Tiling;
 let elements = [],
     Bush = [],
     Tree = [],
@@ -19,18 +19,17 @@ const gameLoop = (delta) => {
     });
 }
 const BG = (_app, scene) => { 
-    app = _app;
-    EndLevel = app.EndLevel;
+    app = _app; 
     if(scene === 1){
         ShowMainScreen();
     }
-    if(scene === 2){
+    if(app.level === 2 && scene === 0){
         ShowFirstLevel();
     }
 } 
 
 function MoveAll(x) {
-    if ((Floor.tilePosition.x - x) < 0 && ((Floor.tilePosition.x * -1) + window.innerWidth/2) < EndLevel) { 
+    if ((Floor.tilePosition.x - x) < 0 && ((Floor.tilePosition.x * -1) + window.innerWidth/2) < app.EndLevel) { 
         //<0 потому, ччто мы делаем отнимание и там всегда отриц.ч.
         Tiling = true;
         for(let i = 0; i < countTree; i++){
@@ -43,8 +42,7 @@ function MoveAll(x) {
             Rock[i].x -= x;
         }
         Floor.tilePosition.x -=x;
-        Bg.tilePosition.x -=2;
-        //console.log(Floor.tilePosition.x * -1, EndLevel);
+        Bg.tilePosition.x -=2; 
     } else {
         Tiling = false;
     }
@@ -120,8 +118,7 @@ function ShowMainScreen(){
     app.ticker.add(delta => gameLoop(delta));
 }
 function setXGirl(x){
-    //GirlX = x;
-    //console.log(GirlX)
+    //GirlX = x; 
 }
 const getX = () => {
     return Floor.x;

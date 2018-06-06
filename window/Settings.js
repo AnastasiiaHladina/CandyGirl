@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import buttonHover from './util/buttonHover';
 import SetLevel from './SetLevel';
+import  * as Music from './music/Music';
 
 let GUI;
 let Container = PIXI.Container;
@@ -37,16 +38,16 @@ module.exports = (app, callback) => {
     ButtonSettingsMusic.buttonMode = ButtonSettingsMusic.interactive = true;   
     ButtonSettingsOk.buttonMode = ButtonSettingsOk.interactive = true;   
 
-    ButtonSettingsHome.on("click", function(){ 
+    ButtonSettingsHome.on("click", function(){
         callback(3);
     })
 
     ButtonSettingsSound.on("click", function(){ 
-        alert(2);
+        Music.Button_Sound_Stop();
     })
 
     ButtonSettingsMusic.on("click", function(){ 
-        alert(3);
+        Music.Button_Music_Stop();
     })
 
     ButtonSettingsOk.on("click", function(){  
