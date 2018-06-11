@@ -1,8 +1,9 @@
 import * as PIXI from 'pixi.js'; 
-import {hitRectangle} from '../../util/ContactOfTwoRectangles.js';  
-import {randomInteger} from '../../util/Random';    
+import {hitRectangle} from '../../util/ContactOfTwoRectangles.js';
+import {randomInteger} from '../../util/Random';  
 import  * as Music from '../../music/Music'; 
 import removeAll from '../../util/removeAll'; 
+import  * as Pause from '../../Pause'; 
 
 const ticker = new PIXI.ticker.Ticker();
 let Sprite = PIXI.Sprite; 
@@ -12,8 +13,8 @@ let Extras = PIXI.extras;
 let TilingSprite = PIXI.extras.TilingSprite;
 let app, Animals, FreeCandy;
 let girl, GirlTextureAtlas, CandyTextureAtlas, GirlAnimation = [];
-let vy, _x, currentX, Candy = [], countCandy = 2, c = 0, Health;
-let check = true, notDead = true;
+let vy, currentX, Candy = [], countCandy = 2, c = 0, Health;
+let check = true, notDead = false;
 
 // в прыжке сейчас?
 let jump = false;
@@ -30,7 +31,6 @@ let gravity = { x: 0, y: -2 };
 const AnimateGirl = (x) => {
     if (x!== undefined) { 
         if (x != 0) {
-            _x = x;
             app.stage.removeChild(girl);
             GirlAnimation = [];
             girl = null;
@@ -55,7 +55,7 @@ const AnimateGirl = (x) => {
             girl.scale.set(0.5, 0.5);    
             girl.anchor.set(0.5, 0.5);
             girl.y = vy;    
-            girl.x = currentX;
+            girl.x = currentX; 
         }
         app.stage.addChild(girl);
     }
@@ -71,6 +71,7 @@ function girlJump(delta, y){
 
 
 const InitGirl = (_app, _Animals, _FreeCandy) => {
+    console.log('INIT')
     app = _app;    
     Animals = _Animals; 
     FreeCandy = _FreeCandy;
@@ -126,15 +127,13 @@ const updateGirl = (delta) => {
         girl.y = vy;
     }
 
-    if (velocity.y < -20) {
-        velocity.y = 20;
+    if (velocity.y < -20 && girl.y <= vy-50) {
+    // if (girl.y <= vy-100 && velocity.y < 0) {
+        velocity.y = 1;
     }
 
     girl.x += velocity.x * delta;
     girl.y += velocity.y * delta;
-
-
-
 
 /*   ATTACK   */
 let i = 0;
@@ -169,7 +168,7 @@ let j, t;
         if(hitRectangle(girl, animal)){  
             app.Health -= 2;
             j--;
-            //Music.Audio_Start_Stop(7);
+            Music.Audio_Start_Stop(7);
         }
         j++;
     }
@@ -208,37 +207,36 @@ let j, t;
         for(let i = 0; i < 30; i++){ 
             let texture = Texture.fromFrame('girlDead (' + (i+1) + ').png');
             GirlAnimation.push(texture);
-        }
-            console.log(1)
+        } 
             girl = new Extras.AnimatedSprite(GirlAnimation);
             girl.gotoAndPlay(0); 
             girl.scale.set(0.5, 0.5);
             if(_x * girl.scale.x < 0)girl.scale.x *= -1;  
             girl.anchor.set(0.5, 0.5);
-            girl.x = currentX;
-            girl.y = vy;  
-            app.stage.addChild(girl);
-
-            //DeathGirl();  НАДО ПОСТАВИТЬ СЕТ ТАЙМАУТ      
+            girl.x = currentX + 100; 
+            girl.y = vy + (girl.height/2);   
+            app.stage.addChild(girl); 
+            DeathGirl();    
         }
     
+        if(girl.x + girl.width >= app.EndLevel){
+            alert(1122323);
+        }
 
-    app.countCandy = countCandy;
-    
+    app.countCandy = countCandy;    
 }
 
 function DeathGirl(){
     check = false; 
+    notDead = true; 
     app.stage.removeChild(girl);
     girl = new Sprite(GirlTextureAtlas['girlDead (30).png']);
     girl.scale.set(0.5, 0.5);    
     girl.anchor.set(0.5, 0.5);
-    girl.y = vy;    
+    girl.y = vy + (girl.height/2); 
     girl.x = currentX;
-    app.stage.addChild(girl);
-    //removeAll(app.stage); 
-    
-    //app.showGUI(1);
+    app.stage.addChild(girl); 
+    Pause.ShowEnd(app, 0);
 }
 
 const setJump = (value) => {
@@ -256,6 +254,10 @@ const WidthGirl = () => {
 const HeightGirl = () => {
     return girl.height;
 }
+const SetXVelocity = (x) => {
+    velocity.x = x
+}
+
 module.exports = {
     InitGirl, 
     AnimateGirl,
@@ -266,4 +268,5 @@ module.exports = {
     updateGirl,
     setJump, 
     GirlAttack,
+    SetXVelocity
 }

@@ -39,8 +39,8 @@ const InitJelly = (_app,  _GirlWidth, _GirlHeight) => {
 }   
 
 let direction = -1;
-function gameLoop(delta){
-    for(let i = 0; i < Animals.length; i++){ 
+function gameLoop(delta) {
+    for(let i = 0; i < Animals.length; i++) { 
         Animals[i].rotation += (delta / 8) * direction; 
         
         if(Math.abs(Animals[i].rotation) > (Math.PI / 2)){
@@ -49,25 +49,25 @@ function gameLoop(delta){
     } 
 }
 
-const GetAllAnimals = () =>{
+const GetAllAnimals = () => {
     return Animals;
 }
-const GetAllFreeCandy = () =>{
+const GetAllFreeCandy = () => {
     return FreeCandy;
 }
 
-const AnimalDead = (el) =>{
+const AnimalDead = (el) => {
     app.stage.removeChild(el);
 }
 
-const MoveAllAnimals = (x) => {
-    if(app.Tiling){
+const MoveAllAnimals = (x, delta) => {
+    if(app.Tiling) {
         for(let i = 0; i < Animals.length; i++){
-            Animals[i].x -= x; 
-        }  
+            Animals[i].x -= x * delta;
+        }
         for(let i = 0; i < FreeCandy.length; i++){
-            FreeCandy[i].x -= x; 
-        }         
+            FreeCandy[i].x -= x * delta;
+        }
     }
 }
 

@@ -5,7 +5,7 @@ import * as Girl from './entity/girl/Girl.js';
 import * as Jelly from './entity/jellyMonsters/jellyMonsters.js';
 import {BG, MoveAll, setXGirl, getHeight} from './bg/ShowBG.js'; 
 import  * as Music from './music/Music'; 
-let x, speed = 10, app;
+let x, speed = 0, app;
 let checkAudio = true, tempCount;
 
 
@@ -14,7 +14,7 @@ const keyboard = (window) => {
     window.addEventListener('keydown', function(e){
         setKey(e.keyCode);
         x = Girl.WidthGirl();
-        if(isKeyDown('up')) {
+        if(isKeyDown('up')) { 
             Girl.setJump(true);
         } 
         if (isKeyDown('left')){ 
@@ -22,21 +22,19 @@ const keyboard = (window) => {
                 checkAudio = false; 
                 Music.Audio_Start(4);
             } 
-            Girl.AnimateGirl(x * (-1)); 
-            MoveAll(speed * (-1));
-            Jelly.MoveAllAnimals(speed * (-1));
+            Girl.AnimateGirl(x * (-1));
+            speed = -5;
+            
         } 
-        else if(isKeyDown('right')){ 
+        else if(isKeyDown('right')){
             if(checkAudio) {
                 checkAudio = false; 
                 Music.Audio_Start(4);
             } 
             Girl.AnimateGirl(x); 
-            MoveAll(speed);
-            Jelly.MoveAllAnimals(speed);
+            speed = 5; 
         }
-        if(isKeyDown('0')) {
-            console.log(app.countCandy);
+        if(isKeyDown('0')) { 
             Music.Audio_Start_Stop(5);
             Girl.GirlAttack(); 
         }
@@ -48,6 +46,7 @@ const keyboard = (window) => {
                 checkAudio = true;
                 Music.Stop_One_Of_Audio(4);
             }
+            speed = 0;
             Girl.AnimateGirl(0);   
         } 
         if(isKeyUp('right')){
@@ -55,12 +54,23 @@ const keyboard = (window) => {
                 checkAudio = true;
                 Music.Stop_One_Of_Audio(4);
             }
+            speed = 0;
             Girl.AnimateGirl(0);
         } 
     });
 }
 
 function update(delta) {
+    MoveAll(speed, delta);
+    Jelly.MoveAllAnimals(speed, delta);
+    if(speed > 0){
+        Girl.AnimateGirl(delta); 
+    } else if(speed < 0){
+        Girl.AnimateGirl(-delta);
+    } else {
+        Girl.AnimateGirl(speed);
+    }
+    
     Girl.updateGirl(delta);
     updateGUI(delta);
 }

@@ -28,21 +28,21 @@ const BG = (_app, scene) => {
     }
 } 
 
-function MoveAll(x) {
+function MoveAll(x, delta) {
     if ((Floor.tilePosition.x - x) < 0 && ((Floor.tilePosition.x * -1) + window.innerWidth/2) < app.EndLevel) { 
         //<0 потому, ччто мы делаем отнимание и там всегда отриц.ч.
         Tiling = true;
         for(let i = 0; i < countTree; i++){
-            Tree[i].x -= x; 
+            Tree[i].x -= x * delta; 
         }
         for(let i = 0; i < countBush; i++){
-            Bush[i].x -= x;
+            Bush[i].x -=  x * delta;
         }
         for(let i = 0; i < countRock; i++){
-            Rock[i].x -= x;
+            Rock[i].x -=  x * delta;
         }
         Floor.tilePosition.x -=x;
-        Bg.tilePosition.x -=2; 
+        Bg.tilePosition.x -= (x * delta) / 2; 
     } else {
         Tiling = false;
     }

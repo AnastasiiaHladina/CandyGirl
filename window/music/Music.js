@@ -1,6 +1,6 @@
 let letSound = 1, letMusic = 1, app;
 let audioArr = [
-    'effect/c418 sweden.mp3',   //0
+    'effect/kevin-macleod.mp3',   //0
     'effect/forest.mp3',        //1
     'effect/night.mp3',         //2
     'effect/wind.mp3',          //3
