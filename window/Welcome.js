@@ -26,6 +26,7 @@ module.exports = (app, callback) => {
     //buttonHover(ButtonSettings);
 
     ButtonStart.mouseover = function() { 
+        console.log(this);
         buttonAction.Over(this);
     }
     ButtonStart.mouseout = function() {
@@ -33,6 +34,7 @@ module.exports = (app, callback) => {
     }
 
     ButtonSettings.mouseover = function() {
+        console.log(this);
         buttonAction.Over(this);
     }
     ButtonSettings.mouseout = function() {

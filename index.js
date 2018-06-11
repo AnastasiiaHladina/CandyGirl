@@ -68,7 +68,7 @@ import  * as Music from './window/music/Music';
  //let outlineFilterRed = new PIXI.filters.GlowFilter(15, 2, 1, 0xff9999, 0.5);
  let MainBG, GirlTextureAtlas, BGTextureAtlas, FiguresTextureAtlas, CandyTextureAtlas,
   GUITextureAtlas, ForestTextureAtlas, DesertTextureAtlas, MountainTextureAtlas,
-  JellyTextureAtlas; 
+  JellyTextureAtlas, DogTextureAtlas; 
  let app; 
 
 function Load(){
@@ -138,6 +138,7 @@ function Load(){
     app.DesertTextureAtlas = DesertTextureAtlas;
     app.MountainTextureAtlas = MountainTextureAtlas;
     app.JellyTextureAtlas = JellyTextureAtlas;
+    app.DogTextureAtlas = DogTextureAtlas; 
     showGUI(1);
  }
 
@@ -206,6 +207,12 @@ function Load(){
         scale: false,
         suvs: false
     });
+    DogTextureAtlas = new ParticleSprites(1500, {
+        rotation: false,
+        alphaAndtint: false,
+        scale: false,
+        suvs: false
+    });
     GirlTextureAtlas = Loader.resources["images/material/girl/spriteGirl.json"].textures;  
     FiguresTextureAtlas = Loader.resources["images/material/GUI/main/Figures.json"].textures;
     CandyTextureAtlas = Loader.resources["images/material/attack/spriteCandy.json"].textures;
@@ -214,5 +221,6 @@ function Load(){
     DesertTextureAtlas = Loader.resources["images/material/wilderness/spriteWilderness.json"].textures;
     MountainTextureAtlas = Loader.resources["images/material/mountains/spriteMountains.json"].textures;
     JellyTextureAtlas = Loader.resources["images/material/jelly/animals/Forest_Animal.json"].textures;
+    DogTextureAtlas = Loader.resources["images/material/dog/spriteDog.json"].textures; 
 }
  

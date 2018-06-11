@@ -13,7 +13,7 @@ let Extras = PIXI.extras;
 let TilingSprite = PIXI.extras.TilingSprite;
 let app, Animals, FreeCandy;
 let girl, GirlTextureAtlas, CandyTextureAtlas, GirlAnimation = [];
-let vy, currentX, Candy = [], countCandy = 2, c = 0, Health;
+let vy, _x,currentX, Candy = [], countCandy = 2, c = 0, Health;
 let check = true, notDead = false;
 
 // в прыжке сейчас?
@@ -31,6 +31,7 @@ let gravity = { x: 0, y: -2 };
 const AnimateGirl = (x) => {
     if (x!== undefined) { 
         if (x != 0) {
+            _x = x;
             app.stage.removeChild(girl);
             GirlAnimation = [];
             girl = null;
@@ -70,16 +71,15 @@ function girlJump(delta, y){
 }
 
 
-const InitGirl = (_app, _Animals, _FreeCandy) => {
-    console.log('INIT')
-    app = _app;    
+const InitGirl = (_app, _Animals, _FreeCandy) => { 
+    app = _app;
     Animals = _Animals; 
     FreeCandy = _FreeCandy;
     GirlTextureAtlas = app.GirlTextureAtlas; 
     girl = new Sprite(GirlTextureAtlas["girlIdle (1).png"]);
     girl.scale.set(0.5, 0.5);    
     girl.anchor.set(0.5, 0.5);
-    vy = window.innerHeight - app.FloorHeight - (girl.height/2) + 10;    
+    vy = window.innerHeight - app.FloorHeight - (girl.height/2) + 10;
     girl.x = girl.width;
     currentX = girl.x;
     girl.y = vy;    
@@ -127,9 +127,9 @@ const updateGirl = (delta) => {
         girl.y = vy;
     }
 
-    if (velocity.y < -20 && girl.y <= vy-50) {
+    if (velocity.y < -20 ) {
     // if (girl.y <= vy-100 && velocity.y < 0) {
-        velocity.y = 1;
+        velocity.y = 20;
     }
 
     girl.x += velocity.x * delta;

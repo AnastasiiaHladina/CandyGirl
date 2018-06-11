@@ -33,6 +33,7 @@ const keyboard = (window) => {
             } 
             Girl.AnimateGirl(x); 
             speed = 5; 
+            console.log("Right")
         }
         if(isKeyDown('0')) { 
             Music.Audio_Start_Stop(5);

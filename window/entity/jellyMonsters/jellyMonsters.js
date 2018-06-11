@@ -9,14 +9,17 @@ let Loader = PIXI.loader;
 let Extras = PIXI.extras;
 let TilingSprite = PIXI.extras.TilingSprite;
 let app;
-let Animals = [], FreeCandy = [], JellyTextureAtlas, CandyTextureAtlas, countJelly = 7;  
-let vy, c = 0, z;  
-let GirlWidth, GirlHeight
+let Animals = [], FreeCandy = [], DogAnimation = [], JellyTextureAtlas, CandyTextureAtlas, DogTextureAtlas, countJelly = 7;  
+let vy, c = 0, z, currentX;  
+let GirlWidth, GirlHeight, Dog;
+let direction = -1;
+
 
 const InitJelly = (_app,  _GirlWidth, _GirlHeight) => {
     app = _app;    
     JellyTextureAtlas = app.JellyTextureAtlas;
     CandyTextureAtlas = app.CandyTextureAtlas; 
+    DogTextureAtlas = app.DogTextureAtlas;
     GirlWidth = _GirlWidth;
     GirlHeight = _GirlHeight;
 
@@ -34,11 +37,24 @@ const InitJelly = (_app,  _GirlWidth, _GirlHeight) => {
         FreeCandy[i].y = window.innerHeight - app.FloorHeight * 3.5; 
         FreeCandy[i].anchor.set(0.5, 0.5); 
     }
-    app.stage.addChild(...Animals, ...FreeCandy); 
+    app.stage.addChild(...Animals, ...FreeCandy);  
     app.ticker.add(delta => gameLoop(delta));
+
+
+
+  
+    Dog = new Sprite(DogTextureAtlas["dogRun (1).png"]);
+    Dog.scale.set(0.5, 0.5);    
+    Dog.anchor.set(0.5, 0.5);
+    vy = window.innerHeight - app.FloorHeight - (Dog.height/2) + 10;
+    Dog.x = app.EndLevel/2;
+    currentX =  app.EndLevel/2;
+    console.log(app.EndLevel/2)
+    Dog.y = vy;    
+    app.stage.addChild(Dog);
+
 }   
 
-let direction = -1;
 function gameLoop(delta) {
     for(let i = 0; i < Animals.length; i++) { 
         Animals[i].rotation += (delta / 8) * direction; 
@@ -47,13 +63,35 @@ function gameLoop(delta) {
             direction *= -1;
         }
     } 
+
+    app.stage.removeChild(Dog);
+    DogAnimation = [];
+    let dogX = Dog.x;
+    Dog = null; 
+
+    let texture = Texture.fromFrame('dogRun (' + (1 + Math.floor(c++ / 8) % 8) + ').png');
+    DogAnimation.push(texture);
+    Dog = new Extras.AnimatedSprite(DogAnimation);
+
+ 
+
+    Dog.scale.set(0.5, 0.5); 
+    Dog.anchor.set(0.5, 0.5);
+    Dog.x = dogX;
+    Dog.y = vy;
+    app.stage.addChild(Dog);
 }
 
 const GetAllAnimals = () => {
     return Animals;
 }
+
 const GetAllFreeCandy = () => {
     return FreeCandy;
+}
+
+const GetDog = () => {
+    return Dog;
 }
 
 const AnimalDead = (el) => {
@@ -68,6 +106,7 @@ const MoveAllAnimals = (x, delta) => {
         for(let i = 0; i < FreeCandy.length; i++){
             FreeCandy[i].x -= x * delta;
         }
+        Dog.x -= x * delta;
     }
 }
 
@@ -75,5 +114,6 @@ module.exports = {
     InitJelly,
     MoveAllAnimals,
     GetAllAnimals,
-    GetAllFreeCandy
+    GetAllFreeCandy,
+    GetDog
 }
