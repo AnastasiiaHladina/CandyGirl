@@ -81,7 +81,8 @@ function Load(){
 	 //загрузка картинок
 	 Loader
 	   .add([ 
-	       "images/material/GUI/main/all/BG.png",]);
+	       "images/material/GUI/main/all/BG.png",
+           "images/material/other/ob.png"]);
 	 Loader
 	   .add([
 	       "images/material/GUI/main/GUI.json",       

@@ -106,7 +106,7 @@ module.exports = (_app, window) => {
     app = _app;        
     Music.Audio_Start(1);    
     BG(app);//First Level
-    Jelly.InitJelly(app,  Girl.WidthGirl,  Girl.HeightGirl);
+    Jelly.InitJelly(app,  Girl.WidthGirl,  Girl.HeightGirl, Girl.PositionGirlByX);
     Girl.InitGirl(app, Jelly.GetAllAnimals(), Jelly.GetAllFreeCandy());
     GUI(app);
     keyboard(window); 

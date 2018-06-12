@@ -253,7 +253,7 @@ const WidthGirl = () => {
 }
 const HeightGirl = () => {
     return girl.height;
-}
+} 
 const SetXVelocity = (x) => {
     velocity.x = x
 }
