@@ -34,6 +34,7 @@ const AnimateGirl = (x) => {
             _x = x;
             app.stage.removeChild(girl);
             GirlAnimation = [];
+            let oldY = girl.y;
             girl = null;
  
             let texture = Texture.fromFrame('girlRun (' + (1 + (c++) % 20) + ').png');
@@ -46,16 +47,17 @@ const AnimateGirl = (x) => {
             if(x * girl.scale.x < 0)girl.scale.x *= -1;  
             girl.anchor.set(0.5, 0.5);
             girl.x = currentX;
-            girl.y = vy;  
+            girl.y = oldY;// vy;  
             
         } else {
             app.stage.removeChild(girl);
             GirlAnimation = [];
+            let oldY = girl.y;
             girl = null;
             girl = new Sprite(GirlTextureAtlas['girlIdle (1).png']);
             girl.scale.set(0.5, 0.5);    
             girl.anchor.set(0.5, 0.5);
-            girl.y = vy;    
+            girl.y = oldY;//vy;    
             girl.x = currentX; 
         }
         app.stage.addChild(girl);
@@ -102,18 +104,13 @@ function GirlAttack(){
     }
 }
 
- 
-
-
 const updateGirl = (delta) => {
     if (!girl) return;
 
     velocity.x += gravity.x;
     velocity.y += gravity.y;
 
-    if (girl.y >= vy && jump && velocity.y >= 0) {
-        standOnGround = true;
-    }
+    standOnGround = girl.y >= vy;
 
     // если прыжок активирован и мы можем прыгнуть
     if (jump && canJump) {
@@ -128,8 +125,7 @@ const updateGirl = (delta) => {
         girl.y = vy;
     }
 
-    if (velocity.y < -20 ) {
-    // if (girl.y <= vy-100 && velocity.y < 0) {
+    if (girl.y < vy - 100) {
         velocity.y = 20;
     }
 
@@ -210,6 +206,7 @@ let j, t;
  
         app.stage.removeChild(girl);
         GirlAnimation = [];
+        let oldY = girl.y;
         girl = null;
 
         for(let i = 0; i < 30; i++){ 
@@ -222,7 +219,7 @@ let j, t;
             if(_x * girl.scale.x < 0)girl.scale.x *= -1;  
             girl.anchor.set(0.5, 0.5);
             girl.x = currentX + 100; 
-            girl.y = vy + (girl.height/2);   
+            girl.y = oldY;// vy + (girl.height/2);   
             app.stage.addChild(girl); 
             DeathGirl();    
         }

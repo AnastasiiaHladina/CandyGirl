@@ -38,8 +38,11 @@ const keyboard = (window) => {
             Girl.GirlAttack(); 
         }
     });
-    window.addEventListener('keyup', function(e){
+    window.addEventListener('keyup', function(e) {
         clearKey(e.keyCode);
+        if (isKeyUp('up')) {
+            Girl.setJump(false);
+        }
         if(isKeyUp('left')){
             if(!checkAudio){
                 checkAudio = true;
