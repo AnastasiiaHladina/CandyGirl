@@ -24,7 +24,6 @@ const keyboard = (window) => {
             } 
             Girl.AnimateGirl(x * (-1));
             speed = -5;
-            
         } 
         else if(isKeyDown('right')){
             if(checkAudio) {
@@ -32,8 +31,7 @@ const keyboard = (window) => {
                 Music.Audio_Start(4);
             } 
             Girl.AnimateGirl(x); 
-            speed = 5; 
-            console.log("Right")
+            speed = 5;  
         }
         if(isKeyDown('0')) { 
             Music.Audio_Start_Stop(5);
@@ -107,7 +105,7 @@ module.exports = (_app, window) => {
     Music.Audio_Start(1);    
     BG(app);//First Level
     Jelly.InitJelly(app,  Girl.WidthGirl,  Girl.HeightGirl, Girl.PositionGirlByX);
-    Girl.InitGirl(app, Jelly.GetAllAnimals(), Jelly.GetAllFreeCandy());
+    Girl.InitGirl(app, Jelly.GetAllAnimals(), Jelly.GetAllFreeCandy(), Jelly.GetDog());
     GUI(app);
     keyboard(window); 
     // добавляем функцию апдейт
