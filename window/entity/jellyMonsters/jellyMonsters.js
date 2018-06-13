@@ -51,10 +51,9 @@ const InitJelly = (_app,  _GirlWidth, _GirlHeight, _GirlX) => {
     Dog.scale.set(0.5, 0.5);    
     Dog.anchor.set(0.5, 0.5);
     vy = window.innerHeight - app.FloorHeight - (Dog.height/2) + 10;
-    //Dog.x = app.EndLevel - Dog.width * 2;
-    Dog.x = 500;
+    Dog.x = app.EndLevel - Dog.width * 2;
     currentX =  app.EndLevel/2;
-    console.log(app.EndLevel, app.EndLevel - Dog.width * 2, app.EndLevel - Dog.width)
+    //console.log(app.EndLevel, app.EndLevel - Dog.width * 2, app.EndLevel - Dog.width)
     Dog.y = vy;    
 
     let t = TextureCache["images/material/other/ob.png"];
@@ -89,6 +88,9 @@ function gameLoop(delta) {
     Dog.anchor.set(0.5, 0.5);
     Dog.x = dogX;
     Dog.y = vy;
+
+
+
 
     app.stage.addChild(Dog);
 }
@@ -127,5 +129,5 @@ module.exports = {
     MoveAllAnimals,
     GetAllAnimals,
     GetAllFreeCandy,
-    GetDog
+    GetDog,
 }

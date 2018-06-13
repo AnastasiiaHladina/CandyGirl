@@ -13,7 +13,7 @@ let Extras = PIXI.extras;
 let TilingSprite = PIXI.extras.TilingSprite;
 let app, Animals, FreeCandy;
 let girl, GirlTextureAtlas, CandyTextureAtlas, GirlAnimation = [];
-let vy, _x,currentX, Candy = [], countCandy = 2, c = 0, Health;
+let vy, _x,currentX, Candy = [], countCandy = 2, c = 0, Health, Boss;
 let check = true, notDead = false;
 
 // в прыжке сейчас?
@@ -71,10 +71,11 @@ function girlJump(delta, y){
 }
 
 
-const InitGirl = (_app, _Animals, _FreeCandy) => { 
+const InitGirl = (_app, _Animals, _FreeCandy, _Boss) => { 
     app = _app;
     Animals = _Animals; 
     FreeCandy = _FreeCandy;
+    Boss = _Boss;
     GirlTextureAtlas = app.GirlTextureAtlas; 
     girl = new Sprite(GirlTextureAtlas["girlIdle (1).png"]);
     girl.scale.set(0.5, 0.5);    
@@ -135,6 +136,12 @@ const updateGirl = (delta) => {
     girl.x += velocity.x * delta;
     girl.y += velocity.y * delta;
 
+    if(hitRectangle(girl, Boss)){ 
+    	app.Health -= 2;
+    	Music.Audio_Start_Stop(7);
+    }
+
+
 /*   ATTACK   */
 let i = 0;
 let j, t;
@@ -172,6 +179,7 @@ let j, t;
         }
         j++;
     }
+
 
 
 /*  FREE_CANDY   */
@@ -218,12 +226,15 @@ let j, t;
             app.stage.addChild(girl); 
             DeathGirl();    
         }
-    
+/*    
         if(girl.x + girl.width >= app.EndLevel){
             alert(1122323);
         }
+*/
+//console.log(girl, Boss, 111111)
 
-    app.countCandy = countCandy;    
+
+    	app.countCandy = countCandy;    
 }
 
 function DeathGirl(){

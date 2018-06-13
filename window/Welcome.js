@@ -21,12 +21,9 @@ module.exports = (app, callback) => {
     ButtonSettings = new Sprite(app.GUITextureAtlas["19.png"]);//Button Settings
     ButtonSettings.scale.set(0.4, 0.4);
     ButtonSettings.position.set((window.innerWidth/2) - (ButtonSettings.width/2), (window.innerHeight/2) + (ButtonSettings.height/3));
-    
-    //buttonHover(ButtonStart);
-    //buttonHover(ButtonSettings);
+
 
     ButtonStart.mouseover = function() { 
-        console.log(this);
         buttonAction.Over(this);
     }
     ButtonStart.mouseout = function() {
@@ -34,7 +31,6 @@ module.exports = (app, callback) => {
     }
 
     ButtonSettings.mouseover = function() {
-        console.log(this);
         buttonAction.Over(this);
     }
     ButtonSettings.mouseout = function() {
