@@ -13,8 +13,8 @@ let Extras = PIXI.extras;
 let TilingSprite = PIXI.extras.TilingSprite;
 let app, Animals, FreeCandy;
 let girl, GirlTextureAtlas, CandyTextureAtlas, GirlAnimation = [];
-let vy, _x,currentX, Candy = [], countCandy = 2, c = 0, Health, Boss;
-let check = true, notDead = false;
+let vy, _x,currentX, Candy = [], countCandy = 2, c = 0, Health, Boss, Dialog;
+let check = true, notDead = false, shot = 0;
 
 // в прыжке сейчас?
 let jump = false;
@@ -73,11 +73,12 @@ function girlJump(delta, y){
 }
 
 
-const InitGirl = (_app, _Animals, _FreeCandy, _Boss) => { 
+const InitGirl = (_app, _Animals, _FreeCandy, _Boss, _Dialog) => { 
     app = _app;
     Animals = _Animals; 
     FreeCandy = _FreeCandy;
     Boss = _Boss;
+    Dialog = _Dialog;
     GirlTextureAtlas = app.GirlTextureAtlas; 
     girl = new Sprite(GirlTextureAtlas["girlIdle (1).png"]);
     girl.scale.set(0.5, 0.5);    
@@ -105,8 +106,7 @@ function GirlAttack(){
 }
 
 const updateGirl = (delta) => {
-    if (!girl) return;
-
+    if (!girl) return; 
     velocity.x += gravity.x;
     velocity.y += gravity.y;
 
@@ -136,19 +136,18 @@ const updateGirl = (delta) => {
     	app.Health -= 2;
     	Music.Audio_Start_Stop(7);
     }
-
-
+ 
 /*   ATTACK   */
 let i = 0;
 let j, t;
     for(let candy of Candy){
-            if(candy.y > window.innerHeight - app.FloorHeight){
+            if(candy.y > window.innerHeight - app.FloorHeight){//онфета "ушла" в пол
                 Candy.splice(i, 1);
                 app.stage.removeChild(candy);
                 i--;
             }
             j = 0; 
-            for(let animal of Animals){
+            for(let animal of Animals){//кормление мобов
                 if(hitRectangle(candy, animal)){
                     Animals.splice(j, 1);
                     Candy.splice(i, 1);
@@ -159,15 +158,35 @@ let j, t;
                 }
                 j++;
             }
+            if(!app.BossDead && hitRectangle(candy, Boss)){
+                console.log(2121)
+                Candy.splice(i, 1);
+                app.stage.removeChild(candy);
+                Music.Audio_Start_Stop(6);
+                i--;
+                shot += 1;
+                if(shot === 2){
+                    app.BossDead = true;
+                    app.stage.removeChild(Boss);
+                    app.stage.removeChild(Dialog); 
+                }
+            }
             candy.x += 8;
             candy.y *= 1.001;
             i++;
     }
 
 
+ 
+
+
+
 /*   MOBS   */
     j = 0;
-    for(let animal of Animals){
+    for(let animal of Animals){ 
+        if(Animals.length === 0){
+            WinGirl();
+        } 
         if(hitRectangle(girl, animal)){  
             app.Health -= 2;
             j--;
@@ -223,12 +242,7 @@ let j, t;
             app.stage.addChild(girl); 
             DeathGirl();    
         }
-/*    
-        if(girl.x + girl.width >= app.EndLevel){
-            alert(1122323);
-        }
-*/
-//console.log(girl, Boss, 111111)
+
 
 
     	app.countCandy = countCandy;    
@@ -245,6 +259,20 @@ function DeathGirl(){
     girl.x = currentX;
     app.stage.addChild(girl); 
     Pause.ShowEnd(app, 0);
+}
+
+function WinGirl(){
+    notDead = true;    
+//    if(app.Health === 171.58333333333334){
+        Pause.ShowEnd(app, 3);        
+/*    }
+    if(app.Health < 100){
+        Pause.ShowEnd(app, 2);        
+    }
+    if(app.Health < 50){
+        Pause.ShowEnd(app, 1);        
+    }
+    */
 }
 
 const setJump = (value) => {

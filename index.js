@@ -68,16 +68,14 @@ import  * as Music from './window/music/Music';
  //let outlineFilterRed = new PIXI.filters.GlowFilter(15, 2, 1, 0xff9999, 0.5);
  let MainBG, GirlTextureAtlas, BGTextureAtlas, FiguresTextureAtlas, CandyTextureAtlas,
   GUITextureAtlas, ForestTextureAtlas, DesertTextureAtlas, MountainTextureAtlas,
-  JellyTextureAtlas, DogTextureAtlas; 
+  JellyTextureAtlas, DogTextureAtlas, BirdTextureAtlas; 
  let app; 
 
 function Load(){
-	 if(!Utils.isWebGLSupported()){
+	 if(!Utils.isWebGLSupported()){//проверка на поддержку WebGL
 	   type = "canvas"
 	 }
-
 	 Utils.sayHello(type);//Выводит информацию о версии и визуализаторе
-
 	 //загрузка картинок
 	 Loader
 	   .add([ 
@@ -94,11 +92,11 @@ function Load(){
 	       "images/material/wilderness/spriteWilderness.json", 
 	       "images/material/mountains/spriteMountains.json", 
 	       "images/material/attack/spriteCandy.json",
+           "images/material/other/bird.json",
 	       "images/material/GUI/main/Figures.json"
 	   ])
 	   .on("progress", loadProgressHandler)
 	   .load(setup);
-
 	 function loadProgressHandler(loader, resource) {
 	   console.log("loading: " + resource.url);//Вывод названия ресурса
 	   console.log("progress: " + loader.progress + "%");//Вывод прогресса загрузки
@@ -126,7 +124,7 @@ function Load(){
     Music.Audio_Start(0); 
     let loading = document.getElementsByClassName('loading')[0];
     loading.parentNode.removeChild(loading);
-    //добавляем канвас(PIXI автоматически создал его)
+    //добавляем канвас(PIXI создал его)
     document.body.appendChild(app.view);  
  
  
@@ -140,6 +138,7 @@ function Load(){
     app.MountainTextureAtlas = MountainTextureAtlas;
     app.JellyTextureAtlas = JellyTextureAtlas;
     app.DogTextureAtlas = DogTextureAtlas; 
+    app.BirdTextureAtlas = BirdTextureAtlas;
     showGUI(1);
  }
 
@@ -214,6 +213,12 @@ function Load(){
         scale: false,
         suvs: false
     });
+    BirdTextureAtlas = new ParticleSprites(1500, {
+        rotation: false,
+        alphaAndtint: false,
+        scale: false,
+        suvs: false
+    });
     GirlTextureAtlas = Loader.resources["images/material/girl/spriteGirl.json"].textures;  
     FiguresTextureAtlas = Loader.resources["images/material/GUI/main/Figures.json"].textures;
     CandyTextureAtlas = Loader.resources["images/material/attack/spriteCandy.json"].textures;
@@ -223,5 +228,7 @@ function Load(){
     MountainTextureAtlas = Loader.resources["images/material/mountains/spriteMountains.json"].textures;
     JellyTextureAtlas = Loader.resources["images/material/jelly/animals/Forest_Animal.json"].textures;
     DogTextureAtlas = Loader.resources["images/material/dog/spriteDog.json"].textures; 
+    BirdTextureAtlas = Loader.resources["images/material/other/bird.json"].textures; 
+    
 }
  

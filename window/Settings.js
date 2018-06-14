@@ -12,7 +12,8 @@ let ButtonSettingsHome, ButtonSettingsSound, ButtonSettingsMusic, ButtonSettings
 module.exports = (app, callback) => {
     app.stage.removeChild(SettingsContainer); 
     SettingsContainer = new Container();
-
+    app.Sound = true;
+    app.Music = true;
     GUI = new Sprite(app.GUITextureAtlas["11.png"]);
     GUI.scale.set(0.5, 0.5);
     GUI.position.set((window.innerWidth/2) - (GUI.width/2), (window.innerHeight/2) - (GUI.height/2));
@@ -43,11 +44,15 @@ module.exports = (app, callback) => {
     })
 
     ButtonSettingsSound.on("click", function(){ 
-        Music.Button_Sound_Stop();
+        app.Sound = false; 
+        alert('Музыка выклюлены')
+        Music.Audio_Stop();
     })
 
     ButtonSettingsMusic.on("click", function(){ 
-        Music.Button_Music_Stop();
+        app.Music = false;
+        alert('Звуковые эфекты выклюлены')
+        Music.Audio_Stop();
     })
 
     ButtonSettingsOk.on("click", function(){  

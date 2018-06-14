@@ -11,7 +11,8 @@ let TilingSprite = PIXI.extras.TilingSprite;
 let TextureCache = PIXI.utils.TextureCache;
 let Container = PIXI.Container;
 let app;
-let Animals = [], FreeCandy = [], DogAnimation = [], JellyTextureAtlas, CandyTextureAtlas, DogTextureAtlas, countJelly = 7;  
+let Animals = [], FreeCandy = [], DogAnimation = [], BirdAnimation = [], Bird = [], JellyTextureAtlas, CandyTextureAtlas,
+ DogTextureAtlas, BirdTextureAtlas, countJelly = 7;  
 let vy, c = 0, z, currentX;  
 let GirlWidth, GirlHeight, GirlX, Dog, Dialog, DogContainer;
 let direction = -1;
@@ -22,14 +23,15 @@ const InitJelly = (_app,  _GirlWidth, _GirlHeight, _GirlX) => {
     JellyTextureAtlas = app.JellyTextureAtlas;
     CandyTextureAtlas = app.CandyTextureAtlas; 
     DogTextureAtlas = app.DogTextureAtlas;
+    BirdTextureAtlas = app.BirdTextureAtlas;
     GirlWidth = _GirlWidth;
     GirlHeight = _GirlHeight;
     GirlX = _GirlX;
     DogContainer = new Container();
-
+    app.countJelly = countJelly;
     for(let i = 0; i < countJelly; i++){  
         Animals[i] = new Sprite(JellyTextureAtlas["Animal "+ (i + 1) +".png"]); 
-        Animals[i].x = randomInteger(500, app.EndLevel);
+        Animals[i].x = randomInteger(700, app.EndLevel - 500);
         Animals[i].scale.set(0.4, 0.4);
         Animals[i].y = window.innerHeight - app.FloorHeight - Animals[i].height/3; 
         Animals[i].anchor.set(0.5, 0.5); 
@@ -44,15 +46,11 @@ const InitJelly = (_app,  _GirlWidth, _GirlHeight, _GirlX) => {
     app.stage.addChild(...Animals, ...FreeCandy);  
     app.ticker.add(delta => gameLoop(delta));
 
-
-
-  
     Dog = new Sprite(DogTextureAtlas["dogIdle (1).png"]);
     Dog.scale.set(0.5, 0.5);    
     Dog.anchor.set(0.5, 0.5);
-    vy = window.innerHeight - app.FloorHeight - (Dog.height/2) + 10;
-    Dog.x = app.EndLevel - Dog.width * 2;
-    currentX =  app.EndLevel/2;
+    vy = window.innerHeight - app.FloorHeight - (Dog.height/2) + 20;
+    Dog.x = 500;
     //console.log(app.EndLevel, app.EndLevel - Dog.width * 2, app.EndLevel - Dog.width)
     Dog.y = vy;    
 
@@ -61,7 +59,7 @@ const InitJelly = (_app,  _GirlWidth, _GirlHeight, _GirlX) => {
     Dialog.scale.set(0.4, 0.4);    
     Dialog.anchor.set(0.5, 0.5);
     Dialog.x = Dog.x - 100;
-    Dialog.y = Dog.y - Dog.height/2;     
+    Dialog.y = Dog.y - 300;     
     app.stage.addChild(Dialog, Dog);
 
 }   
@@ -75,24 +73,25 @@ function gameLoop(delta) {
         }
     } 
 
-    app.stage.removeChild(Dog);
-    DogAnimation = [];
-    let dogX = Dog.x;
-    Dog = null; 
+    if(Dog){ 
+        app.stage.removeChild(Dog);
+        DogAnimation = [];
+        let dogX = Dog.x;
+        Dog = null;  
+        if(!app.BossDead){
+            let texture = Texture.fromFrame('dogIdle (' + (1 + Math.floor(c++ / 8) % 10) + ').png');
+            DogAnimation.push(texture);
+            Dog = new Extras.AnimatedSprite(DogAnimation);
 
-    let texture = Texture.fromFrame('dogIdle (' + (1 + Math.floor(c++ / 8) % 10) + ').png');
-    DogAnimation.push(texture);
-    Dog = new Extras.AnimatedSprite(DogAnimation);
+            Dog.scale.set(0.5, 0.5); 
+            Dog.anchor.set(0.5, 0.5);
+            Dog.x = dogX;
+            Dog.y = vy;
 
-    Dog.scale.set(0.5, 0.5); 
-    Dog.anchor.set(0.5, 0.5);
-    Dog.x = dogX;
-    Dog.y = vy;
-
-
-
-
-    app.stage.addChild(Dog);
+            app.stage.addChild(Dog);    
+        }
+    }
+    
 }
 
 const GetAllAnimals = () => {
@@ -104,7 +103,16 @@ const GetAllFreeCandy = () => {
 }
 
 const GetDog = () => {
-    return Dog;
+    if(Dog){
+        return Dog;        
+    }
+
+}
+const GetDialog = () => {
+    if(Dialog){
+        return Dialog;        
+    }
+
 }
 
 const AnimalDead = (el) => {
@@ -119,8 +127,11 @@ const MoveAllAnimals = (x, delta) => {
         for(let i = 0; i < FreeCandy.length; i++){
             FreeCandy[i].x -= x * delta;
         }
-        Dog.x -= x * delta;
-        Dialog.x -= x * delta;
+        if(Dog && Dialog){
+            Dog.x -= x * delta;
+            Dialog.x -= x * delta;            
+        }
+
     }
 }
 
@@ -130,4 +141,5 @@ module.exports = {
     GetAllAnimals,
     GetAllFreeCandy,
     GetDog,
+    GetDialog
 }

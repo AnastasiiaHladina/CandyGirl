@@ -35,13 +35,13 @@ const GUI = (_app) => {
     guiCandy.scale.set(0.5, 0.5);
 
     guiHealth = new Sprite(GUITextureAtlas['2.png']);
-    guiHealth.x = window.innerWidth/3;
+    guiHealth.x = guiCandy.x + guiCandy.width + (guiHealth.width /5); //window.innerWidth/3;
     guiHealth.y = 0;
     guiHealth.scale.set(0.5, 0.5);
 
     GirlHealth = guiHealth.width/1.2 - 13;
     app.Health = GirlHealth;
-    
+    console.log(app.Health);
     rectHealth = new Graphics();  
     rectHealth.beginFill(0x1df26b);
     rectHealth.drawRoundedRect((guiHealth.x + guiHealth.width/6), (guiHealth.y + guiHealth.height/6), GirlHealth, guiHealth.height/2, 5);

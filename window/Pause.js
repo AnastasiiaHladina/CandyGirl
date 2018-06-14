@@ -23,17 +23,21 @@ const ShowEnd = (_app, star) => {
 		EndWindow = new Sprite(EndTextureAtlas["1.png"]);
 		EndWindow.scale.set(0.5, 0.5);
     	EndWindow.position.set((window.innerWidth/2) - (EndWindow.width/2), (window.innerHeight/2) - (EndWindow.height/2));
-
- 
 	}
 	if(star === 1){
 		EndWindow = new Sprite(EndTextureAtlas["1.1.png"]);
+		EndWindow.scale.set(0.5, 0.5);
+    	EndWindow.position.set((window.innerWidth/2) - (EndWindow.width/2), (window.innerHeight/2) - (EndWindow.height/2));
 	}
 	if(star === 2){
 		EndWindow = new Sprite(EndTextureAtlas["1.2.png"]);
+		EndWindow.scale.set(0.5, 0.5);
+    	EndWindow.position.set((window.innerWidth/2) - (EndWindow.width/2), (window.innerHeight/2) - (EndWindow.height/2));
 	}
 	if(star === 3){
 		EndWindow = new Sprite(EndTextureAtlas["1.3.png"]);
+		EndWindow.scale.set(0.5, 0.5);
+    	EndWindow.position.set((window.innerWidth/2) - (EndWindow.width/2), (window.innerHeight/2) - (EndWindow.height/2));
 	} 
 	EndContainer.addChild(EndWindow);
     app.stage.addChild(EndContainer); 

@@ -18,12 +18,15 @@ const InitAudio = (_app) => {
 }
 //Проигрывается 1 раз
 const Audio_Start_Stop = (id) => {
-    let OneAudio = new Audio(); 
-    OneAudio.src = audioArr[id]; 
-    OneAudio.preload = true;
-    OneAudio.type='audio/mp3; codecs=vorbis';
-    OneAudio.autoplay = true;
-    RemoveAudio(OneAudio);        
+    if(!app.Sound){
+        let OneAudio = new Audio(); 
+        OneAudio.src = audioArr[id]; 
+        OneAudio.preload = true;
+        OneAudio.type='audio/mp3; codecs=vorbis';
+        OneAudio.autoplay = true;
+        RemoveAudio(OneAudio);            
+    }
+    
 }
 function RemoveAudio(audio){
     audio = null;
@@ -32,16 +35,21 @@ function RemoveAudio(audio){
 
 //Проигрывается постоянно
 const Audio_Start = (i) => { 
-    ActiveAudio[i] = new Audio();  
-    ActiveAudio[i].src = audioArr[i];
-    ActiveAudio[i].preload = true; //предзагрузка
-    ActiveAudio[i].loop = true; //повтор
-    ActiveAudio[i].autoplay = true; // Автоматически запускаем   
-    ActiveAudio[i].type='audio/mp3; codecs=vorbis'; 
+    if(i <= ActiveAudio.length){
+        ActiveAudio[i] = new Audio();  
+        ActiveAudio[i].src = audioArr[i];
+        ActiveAudio[i].preload = true; //предзагрузка
+        ActiveAudio[i].loop = true; //повтор
+        ActiveAudio[i].autoplay = true; // Автоматически запускаем   
+        ActiveAudio[i].type='audio/mp3; codecs=vorbis';         
+    }
+
 }
 //Пауза для 1 песни из множества
 const Stop_One_Of_Audio = (i) => { 
-    ActiveAudio[i].pause();
+    if(i <= ActiveAudio.length){
+        ActiveAudio[i].pause();
+    }
 }
  
 
